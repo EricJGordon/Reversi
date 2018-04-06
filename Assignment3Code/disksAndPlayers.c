@@ -89,8 +89,26 @@ void printBoard(disk board[SIZE][SIZE]){
                     break;
                 default:
                     break;
+            }
         }
     }
 }
+void computePositions(disk board [SIZE][SIZE], player currentPlayer)
+{
+    int i, j;
+
+    for(i=0;i<8;i++)
+    {
+        for(j=0; j<8;j++)
+        {
+            if(board[i][j]!=currentPlayer.type)
+            {
+
+            }
+        }
+
+    }
+
+
 
 }

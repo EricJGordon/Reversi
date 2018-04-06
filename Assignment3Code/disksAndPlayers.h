@@ -29,3 +29,5 @@
 
     void printBoard(disk board [SIZE][SIZE]);
 
+    void computePositions(disk board[SIZE][SIZE], player currentPlayer);
+
