@@ -101,8 +101,41 @@ void computePositions(disk board [SIZE][SIZE], player currentPlayer)
     {
         for(j=0; j<8;j++)
         {
-            if(board[i][j]!=currentPlayer.type)
+            if((board[i][j].type!=currentPlayer.type)&&(board[i][j].type!=NONE))
             {
+                if(board[i-1][j-1].type==currentPlayer.type)
+                {
+
+                }
+                if(board[i-1][j].type==currentPlayer.type)
+                {
+
+                }
+                if(board[i-1][j+1].type==currentPlayer.type)
+                {
+
+                }
+                if(board[i][j-1].type==currentPlayer.type)
+                {
+
+                }
+                if(board[i][j+1].type==currentPlayer.type)
+                {
+
+                }
+                if(board[i+1][j-1].type==currentPlayer.type)
+                {
+
+                }
+                if(board[i+1][j].type==currentPlayer.type)
+                {
+
+                }
+                if(board[i+1][j+1].type==currentPlayer.type)
+                {
+
+                }
+
 
             }
         }
