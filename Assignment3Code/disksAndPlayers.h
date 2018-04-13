@@ -23,7 +23,7 @@
         int points;
     } player;
 
-    void initializePlayers(player player1, player player2);
+    void initializePlayers(player *player1, player *player2);
 
     void initializeBoard(disk board[SIZE][SIZE]);
 

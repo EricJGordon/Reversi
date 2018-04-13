@@ -11,19 +11,23 @@ int main()
     player player2= {"player2", NONE,0};
     disk board[SIZE][SIZE];
 
-    initializePlayers(player1, player2);
+    initializePlayers(&player1, &player2);
 
     initializeBoard(board);
 
     printBoard(board);
 
-    for(i=0;i<32;i++)
+    printf("\n\n%d, %d\n", player1.type, player2.type);
+
+    computePositions(board, player1);
+
+    /*for(i=0;i<32;i++)
         {
             computePositions(board, player1);
 
 
-            computePositions(board, player1);
-        }
+            computePositions(board, player2);
+        }*/
 
     //invoke a method that implements the game logic
 

@@ -5,27 +5,30 @@
 #include "disksAndPlayers.h"
 
 
-void initializePlayers(player player1, player player2){
+void initializePlayers(player *player1, player *player2){
     int nameSize;
     // Insert player 1
     printf("Player 1 please insert your name:   \n");
-    fgets(player1.name, 20, stdin);
-    nameSize = strlen(player1.name);
-    player1.name[nameSize -1] = '\0';
+    fgets(player1->name, 20, stdin);
+    nameSize = strlen(player1->name);
+    player1->name[nameSize -1] = '\0';
 
     // Assign colours and points to player 1
-    player1.type = BLACK;
-    player1.points = 2;
+    player1->type = BLACK;
+    player1->points = 2;
 
     // Insert player 2
     printf("Player 2 please insert your name:   \n");
-    fgets(player2.name, 20, stdin);
-    nameSize = strlen(player2.name);
-    player2.name[nameSize -1] = '\0';
+    fgets(player2->name, 20, stdin);
+    nameSize = strlen(player2->name);
+    player2->name[nameSize -1] = '\0';
 
     // Assign colours and points to player 2
-    player2.type = WHITE;
-    player2.points = 2;
+    player2->type = WHITE;
+    player2->points = 2;
+
+    printf("\n%d, %d\n", player1->type, player2->type);
+
 
 }
 
@@ -103,16 +106,24 @@ void computePositions(disk board [SIZE][SIZE], player currentPlayer)
         {
             if((board[i][j].type!=currentPlayer.type)&&(board[i][j].type!=NONE))
             {
-                for(m=-1;m<2;m++)
+                /*for(m=-1;m<2;m++)   //searching in a 3-by-3 area centred on the opponent's disk
                 {
                     for(n=-1;n<2;n++)
                     {
-                        if(m!=0&&n!=0)  //to exclude centre piece that is being examined
+                        if(m!=0&&n!=0)  //though excluding the centre piece itself from qualifying
                         {
+                            if(board[i+m][j+n].type==NONE && board[i-m][j-n].type==currentPlayer.type)    //for any empty spaces where a new disk can be placed
+                            {*/
 
+
+
+                                printf("\ntype = %d (0=WHITE, 1=BLACK, 2=NONE), i=%d, j=%d", currentPlayer.type, i+1, j+1);   //+1 so it match the printed grid numbers
+
+
+                            /*}
                         }
                     }
-                }
+                }*/
                 /*
                 if(board[i-1][j-1].type==currentPlayer.type)
                 {
