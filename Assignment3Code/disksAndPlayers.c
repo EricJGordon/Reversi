@@ -95,7 +95,7 @@ void printBoard(disk board[SIZE][SIZE]){
 }
 void computePositions(disk board [SIZE][SIZE], player currentPlayer)
 {
-    int i, j;
+    int i, j, m, n;
 
     for(i=0;i<8;i++)
     {
@@ -103,6 +103,17 @@ void computePositions(disk board [SIZE][SIZE], player currentPlayer)
         {
             if((board[i][j].type!=currentPlayer.type)&&(board[i][j].type!=NONE))
             {
+                for(m=-1;m<2;m++)
+                {
+                    for(n=-1;n<2;n++)
+                    {
+                        if(m!=0&&n!=0)  //to exclude centre piece that is being examined
+                        {
+
+                        }
+                    }
+                }
+                /*
                 if(board[i-1][j-1].type==currentPlayer.type)
                 {
 
@@ -134,7 +145,7 @@ void computePositions(disk board [SIZE][SIZE], player currentPlayer)
                 if(board[i+1][j+1].type==currentPlayer.type)
                 {
 
-                }
+                }*/
 
 
             }
