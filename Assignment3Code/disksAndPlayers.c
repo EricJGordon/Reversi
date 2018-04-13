@@ -106,24 +106,22 @@ void computePositions(disk board [SIZE][SIZE], player currentPlayer)
         {
             if((board[i][j].type!=currentPlayer.type)&&(board[i][j].type!=NONE))
             {
-                /*for(m=-1;m<2;m++)   //searching in a 3-by-3 area centred on the opponent's disk
+                for(m=-1;m<2;m++)   //searching in a 3-by-3 area centred on the opponent's disk
                 {
                     for(n=-1;n<2;n++)
                     {
-                        if(m!=0&&n!=0)  //though excluding the centre piece itself from qualifying
-                        {
+
                             if(board[i+m][j+n].type==NONE && board[i-m][j-n].type==currentPlayer.type)    //for any empty spaces where a new disk can be placed
-                            {*/
+                            {
+
+                                printf("\ntype = %d (0=WHITE, 1=BLACK, 2=NONE), i=%d, j=%d", currentPlayer.type, i+1+m, j+1+n);   //+1 so it match the printed grid numbers
 
 
 
-                                printf("\ntype = %d (0=WHITE, 1=BLACK, 2=NONE), i=%d, j=%d", currentPlayer.type, i+1, j+1);   //+1 so it match the printed grid numbers
+                            }
 
-
-                            /*}
-                        }
                     }
-                }*/
+                }
                 /*
                 if(board[i-1][j-1].type==currentPlayer.type)
                 {
