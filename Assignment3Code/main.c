@@ -17,7 +17,7 @@ int main()
 
     printBoard(board);
 
-    printf("\n\n%d, %d\n", player1.type, player2.type);
+    //printf("\n\n%d, %d\n", player1.type, player2.type); troubleshooting player types
 
     computePositions(board, player1);
 

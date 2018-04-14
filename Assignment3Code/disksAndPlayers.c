@@ -27,7 +27,7 @@ void initializePlayers(player *player1, player *player2){
     player2->type = WHITE;
     player2->points = 2;
 
-    printf("\n%d, %d\n", player1->type, player2->type);
+    //printf("\n%d, %d\n", player1->type, player2->type); troubleshooting player types
 
 
 }
@@ -66,6 +66,11 @@ void initializeBoard(disk board [SIZE][SIZE]){
 
             }
         }
+
+    //board[4][0].type=board[4][1].type=board[2][2].type=board[2][3].type=board[2][4].type=board[3][4].type=board[4][4].type=board[5][4].type=WHITE;
+    //board[3][2].type=board[4][2].type=board[5][2].type=board[3][3].type=board[4][3].type=board[5][3].type=BLACK;
+
+    //example board state used to test computePositions function
     }
 
 
@@ -100,6 +105,7 @@ void computePositions(disk board [SIZE][SIZE], player currentPlayer)
 {
     int i, j, m, n;
 
+
     for(i=0;i<8;i++)
     {
         for(j=0; j<8;j++)
@@ -110,53 +116,13 @@ void computePositions(disk board [SIZE][SIZE], player currentPlayer)
                 {
                     for(n=-1;n<2;n++)
                     {
-
-                            if(board[i+m][j+n].type==NONE && board[i-m][j-n].type==currentPlayer.type)    //for any empty spaces where a new disk can be placed
-                            {
-
-                                printf("\ntype = %d (0=WHITE, 1=BLACK, 2=NONE), i=%d, j=%d", currentPlayer.type, i+1+m, j+1+n);   //+1 so it match the printed grid numbers
-
-
-
-                            }
+                        if(board[i+m][j+n].type==NONE && board[i-m][j-n].type==currentPlayer.type)    //for any empty spaces where a new disk can be placed
+                        {
+                            printf("\ntype = %d (0=WHITE, 1=BLACK, 2=NONE), i=%d, j=%d", currentPlayer.type, i+1+m, j+1+n);   //+1 so it match the printed grid numbers
+                        }
 
                     }
                 }
-                /*
-                if(board[i-1][j-1].type==currentPlayer.type)
-                {
-
-                }
-                if(board[i-1][j].type==currentPlayer.type)
-                {
-
-                }
-                if(board[i-1][j+1].type==currentPlayer.type)
-                {
-
-                }
-                if(board[i][j-1].type==currentPlayer.type)
-                {
-
-                }
-                if(board[i][j+1].type==currentPlayer.type)
-                {
-
-                }
-                if(board[i+1][j-1].type==currentPlayer.type)
-                {
-
-                }
-                if(board[i+1][j].type==currentPlayer.type)
-                {
-
-                }
-                if(board[i+1][j+1].type==currentPlayer.type)
-                {
-
-                }*/
-
-
             }
         }
 
