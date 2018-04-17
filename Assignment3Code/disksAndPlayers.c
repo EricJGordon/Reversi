@@ -67,8 +67,8 @@ void initializeBoard(disk board [SIZE][SIZE]){
             }
         }
 
-    //board[4][0].type=board[4][1].type=board[2][2].type=board[2][3].type=board[2][4].type=board[3][4].type=board[4][4].type=board[5][4].type=WHITE;
-    //board[3][2].type=board[4][2].type=board[5][2].type=board[3][3].type=board[4][3].type=board[5][3].type=BLACK;
+    board[4][0].type=board[4][1].type=board[2][2].type=board[2][3].type=board[2][4].type=board[3][4].type=board[4][4].type=board[5][4].type=WHITE;
+    board[3][2].type=board[4][2].type=board[5][2].type=board[3][3].type=board[4][3].type=board[5][3].type=BLACK;
 
     //example board state used to test computePositions function
     }
@@ -118,7 +118,7 @@ void computePositions(disk board [SIZE][SIZE], player currentPlayer)
                     {
                         if(board[i+m][j+n].type==NONE && board[i-m][j-n].type==currentPlayer.type)    //for any empty spaces where a new disk can be placed
                         {
-                            printf("\nCurrent Player type = %d (0=WHITE, 1=BLACK, 2=NONE), Able to put a piece at i=%d, j=%d", currentPlayer.type, i+1+m, j+1+n);   //+1 so it match the printed grid numbers
+                            printf("\nCurrent Player type = %d (0=WHITE, 1=BLACK, 2=NONE), Able to put a piece at i=%d, j=%d, Anchor piece is i=%d, j=%d", currentPlayer.type, i+1+m, j+1+n, i+1, j+1);   //+1 so it match the printed grid numbers
                         }
 
                     }

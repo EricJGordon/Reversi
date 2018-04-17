@@ -20,6 +20,7 @@ int main()
     //printf("\n\n%d, %d\n", player1.type, player2.type); troubleshooting player types
 
     computePositions(board, player1);
+   // computePositions(board, player2);
 
     /*for(i=0;i<32;i++)
         {
