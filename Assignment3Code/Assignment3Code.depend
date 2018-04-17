@@ -7,12 +7,12 @@
 
 1523972388 c:\users\eric\documents\softwareengineering\assignment3\assignment3code\disksandplayers.h
 
-1523973121 source:c:\users\eric\documents\softwareengineering\assignment3\assignment3code\main.c
+1523977920 source:c:\users\eric\documents\softwareengineering\assignment3\assignment3code\main.c
 	<stdio.h>
 	<stdlib.h>
 	"disksAndPlayers.h"
 
-1523976792 source:c:\users\eric\documents\softwareengineering\assignment3\assignment3code\disksandplayers.c
+1523978514 source:c:\users\eric\documents\softwareengineering\assignment3\assignment3code\disksandplayers.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>

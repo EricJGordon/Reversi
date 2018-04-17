@@ -103,7 +103,7 @@ void printBoard(disk board[SIZE][SIZE]){
 }
 void computePositions(disk board [SIZE][SIZE], player currentPlayer)
 {
-    int i, j, m, n;
+    int i, j, m, n, x;
 
 
     for(i=0;i<8;i++)
@@ -116,11 +116,13 @@ void computePositions(disk board [SIZE][SIZE], player currentPlayer)
                 {
                     for(n=-1;n<2;n++)
                     {
-                        if(board[i+m][j+n].type==NONE && board[i-m][j-n].type==currentPlayer.type)    //for any empty spaces where a new disk can be placed
+                        for(x=0;x<8;x++)
                         {
-                            printf("\nCurrent Player type = %d (0=WHITE, 1=BLACK, 2=NONE), Able to put a piece at i=%d, j=%d, Anchor piece is i=%d, j=%d", currentPlayer.type, i+1+m, j+1+n, i+1, j+1);   //+1 so it match the printed grid numbers
+                            if(board[i+m][j+n].type==NONE && board[i-(m+x)][j-(n+x)].type==currentPlayer.type)    //for any empty spaces where a new disk can be placed
+                            {
+                                printf("\nCurrent Player type = %d (0=WHITE, 1=BLACK, 2=NONE), Able to put a piece at i=%d, j=%d, Anchor (opponent's) piece is i=%d, j=%d", currentPlayer.type, i+1+m, j+1+n, i+1, j+1);   //+1 so it match the printed grid numbers
+                            }
                         }
-
                     }
                 }
             }
