@@ -118,7 +118,7 @@ void computePositions(disk board [SIZE][SIZE], player currentPlayer)
                     {
                         if(board[i+m][j+n].type==NONE && board[i-m][j-n].type==currentPlayer.type)    //for any empty spaces where a new disk can be placed
                         {
-                            printf("\ntype = %d (0=WHITE, 1=BLACK, 2=NONE), i=%d, j=%d", currentPlayer.type, i+1+m, j+1+n);   //+1 so it match the printed grid numbers
+                            printf("\nCurrent Player type = %d (0=WHITE, 1=BLACK, 2=NONE), Able to put a piece at i=%d, j=%d", currentPlayer.type, i+1+m, j+1+n);   //+1 so it match the printed grid numbers
                         }
 
                     }
@@ -128,6 +128,31 @@ void computePositions(disk board [SIZE][SIZE], player currentPlayer)
 
     }
 
+    puts("");
+
+}
+
+void printEndScreen(player player1, player player2)
+{
+    printf("\nPlayer1 %s, points: %d", player1.name, player1.points);
+    printf("\nPlayer2 %s, points: %d", player2.name, player2.points);
+
+    puts("");
+
+    if(player1.points>player2.points)
+    {
+        printf("\nThe winner is %s", player1.name);
+    }
+     else if(player2.points>player1.points)
+    {
+        printf("\nThe winner is %s", player2.name);
+    }
+     else
+    {
+        printf("\nAre ties possible? If so, this is one.");
+    }
+    puts("");
 
 
 }
+

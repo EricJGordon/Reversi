@@ -31,6 +31,8 @@ int main()
 
     //invoke a method that implements the game logic
 
-    //invoke a method that prints the final result
+        //invoke a method that prints the final result
+
+        printEndScreen(player1, player2);
 
 }

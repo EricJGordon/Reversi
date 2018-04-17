@@ -31,3 +31,5 @@
 
     void computePositions(disk board[SIZE][SIZE], player currentPlayer);
 
+    void printEndScreen(player player1, player player2);
+
