@@ -4,7 +4,8 @@
     enum colour{
         WHITE,
         BLACK,
-        NONE
+        NONE,
+        AVAILABLE
     };
 
     typedef struct position{
@@ -22,6 +23,7 @@
         enum colour type;
         int points;
     } player;
+
 
     void initializePlayers(player *player1, player *player2);
 

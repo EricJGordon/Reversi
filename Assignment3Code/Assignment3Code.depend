@@ -18,3 +18,16 @@
 	<string.h>
 	"disksAndPlayers.h"
 
+1524024756 source:c:\users\tavo veidas\gitproj\assignment3\assignment3code\disksandplayers.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"disksAndPlayers.h"
+
+1524023824 c:\users\tavo veidas\gitproj\assignment3\assignment3code\disksandplayers.h
+
+1524023824 source:c:\users\tavo veidas\gitproj\assignment3\assignment3code\main.c
+	<stdio.h>
+	<stdlib.h>
+	"disksAndPlayers.h"
+

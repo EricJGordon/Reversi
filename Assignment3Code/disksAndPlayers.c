@@ -33,8 +33,8 @@ void initializePlayers(player *player1, player *player2){
 }
 
 void initializeBoard(disk board [SIZE][SIZE]){
- int i, j;
- //board initialization
+    int i, j;
+    //board initialization
     for(i=0; i< SIZE; i++){
         for(j=0;j<SIZE; j++){
             if(i==3){
@@ -66,38 +66,44 @@ void initializeBoard(disk board [SIZE][SIZE]){
 
             }
         }
-
-    board[4][0].type=board[4][1].type=board[2][2].type=board[2][3].type=board[2][4].type=board[3][4].type=board[4][4].type=board[5][4].type=WHITE;
-    board[3][2].type=board[4][2].type=board[5][2].type=board[3][3].type=board[4][3].type=board[5][3].type=BLACK;
+    //board[4][0].type=board[4][1].type=board[2][2].type=board[2][3].type=board[2][4].type=board[3][4].type=board[4][4].type=board[5][4].type=WHITE;
+    //board[3][2].type=board[4][2].type=board[5][2].type=board[3][3].type=board[4][3].type=board[5][3].type=BLACK;
 
     //example board state used to test computePositions function
     }
 
 
 void printBoard(disk board[SIZE][SIZE]){
-    int i,j;
+    int i,j,k;
     j = 0;
 
     printf("\n    ");
     for(i=0; i< SIZE; i++){
-        printf("%d   ",i+1);
+        printf("%c   ",i+65);
     }
     for(i=0; i< SIZE; i++){
         printf("\n%d | ", i+1);
+
         for(j=0;j<SIZE; j++){
             switch(board[i][j].type){
                 case BLACK:
-                    printf("1 | ");
+                    printf("B | ");
                     break;
                 case WHITE:
-                    printf("0 | ");
+                    printf("W | ");
                     break;
                 case NONE:
-                    printf("x | ");
+                    printf("  | ");
                     break;
+                case AVAILABLE:
+                    printf("o | ");
                 default:
                     break;
             }
+        }
+        printf("\n   ");
+        for (k=0; k<SIZE; k++){
+            printf("----");
         }
     }
 }
@@ -120,14 +126,15 @@ void computePositions(disk board [SIZE][SIZE], player currentPlayer)
                         {
                             if(board[i+m][j+n].type==NONE && board[i-(m+x)][j-(n+x)].type==currentPlayer.type)    //for any empty spaces where a new disk can be placed
                             {
-                                printf("\nCurrent Player type = %d (0=WHITE, 1=BLACK, 2=NONE), Able to put a piece at i=%d, j=%d, Anchor (opponent's) piece is i=%d, j=%d", currentPlayer.type, i+1+m, j+1+n, i+1, j+1);   //+1 so it match the printed grid numbers
+                                board[i+m][j+n].type=AVAILABLE; // Needs rework
+                                //printf("\nCurrent Player type = %d (0=WHITE, 1=BLACK, 2=NONE), Able to put a piece at i=%d, j=%d, Anchor (opponent's) piece is i=%d, j=%d", currentPlayer.type, i+1+m, j+1+n, i+1, j+1);   //+1 so it match the printed grid numbers
                             }
+
                         }
                     }
                 }
             }
         }
-
     }
 
     puts("");
