@@ -66,8 +66,8 @@ void initializeBoard(disk board [SIZE][SIZE]){
 
             }
         }
-    //board[4][0].type=board[4][1].type=board[2][2].type=board[2][3].type=board[2][4].type=board[3][4].type=board[4][4].type=board[5][4].type=WHITE;
-    //board[3][2].type=board[4][2].type=board[5][2].type=board[3][3].type=board[4][3].type=board[5][3].type=BLACK;
+    board[4][0].type=board[4][1].type=board[2][2].type=board[2][3].type=board[2][4].type=board[3][4].type=board[4][4].type=board[5][4].type=WHITE;
+    board[3][2].type=board[4][2].type=board[5][2].type=board[3][3].type=board[4][3].type=board[5][3].type=BLACK;
 
     //example board state used to test computePositions function
     }
@@ -109,7 +109,7 @@ void printBoard(disk board[SIZE][SIZE]){
 }
 void computePositions(disk board [SIZE][SIZE], player currentPlayer)
 {
-    int i, j, m, n, x;
+    int i, j, m, n, x, y;
 
 
     for(i=0;i<8;i++)
@@ -122,15 +122,26 @@ void computePositions(disk board [SIZE][SIZE], player currentPlayer)
                 {
                     for(n=-1;n<2;n++)
                     {
-                        for(x=0;x<8;x++)
-                        {
-                            if(board[i+m][j+n].type==NONE && board[i-(m+x)][j-(n+x)].type==currentPlayer.type)    //for any empty spaces where a new disk can be placed
+                        if(board[i+m][j+n].type==NONE&&(m!=0||n!=0))      //for any empty spaces where a new disk can be placed
                             {
-                                board[i+m][j+n].type=AVAILABLE; // Needs rework
-                                //printf("\nCurrent Player type = %d (0=WHITE, 1=BLACK, 2=NONE), Able to put a piece at i=%d, j=%d, Anchor (opponent's) piece is i=%d, j=%d", currentPlayer.type, i+1+m, j+1+n, i+1, j+1);   //+1 so it match the printed grid numbers
+                                 for(x=0;(i-(m*x))>=0 && (i-(m*x))<8 && (j-(n*x))>=0 && (j-(n*x))<8;x++)
+                                 {
+                                     //for(y=0;;y++)
+                                     //{
+
+
+                                        if(board[i-(m*x)][j-(n*x)].type==currentPlayer.type)
+
+                                               {
+
+                                                //board[i+m][j+n].type=AVAILABLE; // Needs rework
+                                                printf("\nCurrent Player type = %d (0=WHITE, 1=BLACK, 2=NONE), Able to put a piece at i=%d, j=%d, Anchor piece is i=%d, j=%d", currentPlayer.type, i+1+m, j+1+n, i+1, j+1);   //+1 so it match the printed grid numbers
+                                               }
+                                    // }
+                                 }
                             }
 
-                        }
+
                     }
                 }
             }

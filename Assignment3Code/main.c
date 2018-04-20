@@ -15,10 +15,12 @@ int main()
 
     initializeBoard(board);
 
+     printBoard(board);
+
     //computePositions(board, player2);
     computePositions(board, player1);
 
-    printBoard(board);
+
 
 
     //printf("\n\n%d, %d\n", player1.type, player2.type); troubleshooting player types
