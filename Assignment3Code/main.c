@@ -17,10 +17,10 @@ int main()
 
      printBoard(board);
 
-    //computePositions(board, player2);
+    computePositions(board, player2);
+
     computePositions(board, player1);
 
-         printBoard(board);
 
 
 

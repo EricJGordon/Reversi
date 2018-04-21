@@ -79,7 +79,7 @@ void printBoard(disk board[SIZE][SIZE]){
 
     printf("\n    ");
     for(i=0; i< SIZE; i++){
-        printf("%c   ",i+65);
+        printf("%c   ",'A'+i);
     }
     for(i=0; i< SIZE; i++){
         printf("\n%d | ", i+1);
@@ -112,9 +112,9 @@ void computePositions(disk board [SIZE][SIZE], player currentPlayer)
     int i, j, m, n, x, y;
 
 
-    for(i=0;i<8;i++)
+    for(i=0;i<SIZE;i++)
     {
-        for(j=0; j<8;j++)
+        for(j=0; j<SIZE;j++)
         {
             if((board[i][j].type!=currentPlayer.type)&&(board[i][j].type!=NONE)&&(board[i][j].type!=AVAILABLE))
             {
@@ -122,9 +122,9 @@ void computePositions(disk board [SIZE][SIZE], player currentPlayer)
                 {
                     for(n=-1;n<2;n++)
                     {
-                        if(board[i+m][j+n].type==NONE&&(m!=0||n!=0))      //for any empty spaces where a new disk can be placed
+                        if(board[i+m][j+n].type==NONE&&(m!=0||n!=0)&&(i+m)>=0 && (i+m)<SIZE && (j+n)>=0 && (j+n)<SIZE)      //for any empty spaces where a new disk can be placed
                             {
-                                 for(x=0;(i-(m*x))>=0 && (i-(m*x))<8 && (j-(n*x))>=0 && (j-(n*x))<8;x++)
+                                 for(x=0;(i-(m*x))>=0 && (i-(m*x))<SIZE && (j-(n*x))>=0 && (j-(n*x))<SIZE;x++)
                                  {
                                      //for(y=0;;y++)
                                      //{
@@ -135,7 +135,7 @@ void computePositions(disk board [SIZE][SIZE], player currentPlayer)
                                                {
 
 
-                                                printf("\nCurrent Player type = %d (0=WHITE, 1=BLACK, 2=NONE), Able to put a piece at i=%d, j=%d, Anchor piece is i=%d, j=%d", currentPlayer.type, i+1+m, j+1+n, i+1, j+1);   //+1 so it match the printed grid numbers
+                                                printf("\nCurrent Player type = %d (0=WHITE, 1=BLACK, 2=NONE), Able to put a piece at i=%d, j=%d, Anchor piece is i=%d, j=%d", currentPlayer.type, i+m, j+n, i, j);   //+1 so it match the printed grid numbers
                                                board[i+m][j+n].type=AVAILABLE; // Needs rework
 
                                                //if we do end up using graphical representation on board for available spaces, make sure to clear those before next cycle,
@@ -154,6 +154,19 @@ void computePositions(disk board [SIZE][SIZE], player currentPlayer)
     }
 
     puts("");
+    printBoard(board);
+    for(i=0;i<8;i++)
+    {
+        for(j=0; j<8;j++)
+        {
+            if(board[i][j].type==AVAILABLE)
+            {
+                board[i][j].type=NONE;
+            }
+        }
+    }
+
+
 
 }
 
