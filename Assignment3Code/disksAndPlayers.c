@@ -133,7 +133,7 @@ void computePositions(disk board [SIZE][SIZE], player currentPlayer)
                                                {
 
 
-                                                printf("\nCurrent Player type = %d (0=WHITE, 1=BLACK, 2=NONE), Able to put a piece at i=%d, j=%d, Anchor piece is i=%d, j=%d", currentPlayer.type, i+m, j+n, i, j);   //+1 so it match the printed grid numbers
+                                                printf("\nCurrent Player type = %d (0=WHITE, 1=BLACK, 2=NONE), Able to put a piece at i=%d, j=%d, Anchor piece is i=%d, j=%d", currentPlayer.type, i+m+1, j+n+1, i+1, j+1);   //+1 so it match the printed grid numbers
                                                board[i+m][j+n].type=AVAILABLE; // Needs rework  Done?
 
                                                //if we do end up using graphical representation on board for available spaces, make sure to clear those before next cycle,
