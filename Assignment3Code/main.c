@@ -20,6 +20,7 @@ int main()
     //computePositions(board, player2);
     computePositions(board, player1);
 
+         printBoard(board);
 
 
 

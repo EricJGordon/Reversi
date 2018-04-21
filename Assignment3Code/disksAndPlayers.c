@@ -116,7 +116,7 @@ void computePositions(disk board [SIZE][SIZE], player currentPlayer)
     {
         for(j=0; j<8;j++)
         {
-            if((board[i][j].type!=currentPlayer.type)&&(board[i][j].type!=NONE))
+            if((board[i][j].type!=currentPlayer.type)&&(board[i][j].type!=NONE)&&(board[i][j].type!=AVAILABLE))
             {
                 for(m=-1;m<2;m++)   //searching in a 3-by-3 area centred on the opponent's disk
                 {
@@ -134,8 +134,13 @@ void computePositions(disk board [SIZE][SIZE], player currentPlayer)
 
                                                {
 
-                                                //board[i+m][j+n].type=AVAILABLE; // Needs rework
+
                                                 printf("\nCurrent Player type = %d (0=WHITE, 1=BLACK, 2=NONE), Able to put a piece at i=%d, j=%d, Anchor piece is i=%d, j=%d", currentPlayer.type, i+1+m, j+1+n, i+1, j+1);   //+1 so it match the printed grid numbers
+                                               board[i+m][j+n].type=AVAILABLE; // Needs rework
+
+                                               //if we do end up using graphical representation on board for available spaces, make sure to clear those before next cycle,
+                                               //something like "if board[i][j]==AVAILABLE, set to NONE
+
                                                }
                                     // }
                                  }
