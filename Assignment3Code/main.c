@@ -19,7 +19,7 @@ int main()
 
     computePositions(board, player2);
 
-    computePositions(board, player1);
+    //computePositions(board, player1);
 
 
 

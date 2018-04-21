@@ -66,10 +66,19 @@ void initializeBoard(disk board [SIZE][SIZE]){
 
             }
         }
-    board[4][0].type=board[4][1].type=board[2][2].type=board[2][3].type=board[2][4].type=board[3][4].type=board[4][4].type=board[5][4].type=WHITE;
-    board[3][2].type=board[4][2].type=board[5][2].type=board[3][3].type=board[4][3].type=board[5][3].type=BLACK;
+
+
+    //board[4][0].type=board[4][1].type=board[2][2].type=board[2][3].type=board[2][4].type=board[3][4].type=board[4][4].type=board[5][4].type=WHITE;
+    //board[3][2].type=board[4][2].type=board[5][2].type=board[3][3].type=board[4][3].type=board[5][3].type=BLACK;
 
     //example board state used to test computePositions function
+
+
+    board[0][2].type=board[1][2].type=board[2][2].type=board[2][3].type=board[2][1].type=board[3][2].type=board[4][2].type=board[4][3].type=board[4][4].type=WHITE;
+    board[1][5].type=board[2][4].type=board[3][3].type=board[3][4].type=board[3][5].type=BLACK;
+
+    //another sample board state
+
     }
 
 
@@ -109,7 +118,7 @@ void printBoard(disk board[SIZE][SIZE]){
 }
 void computePositions(disk board [SIZE][SIZE], player currentPlayer)
 {
-    int i, j, m, n, x;
+    int i, j, m, n, x, y;
 
 
     for(i=0;i<SIZE;i++)
@@ -129,15 +138,19 @@ void computePositions(disk board [SIZE][SIZE], player currentPlayer)
                                  {                                                                             //and keeps going until it reaches an edge
 
                                         if(board[i-(m*x)][j-(n*x)].type==currentPlayer.type)    //if any of those pieces we just considered are the same colour as the current player,
-                                                                                                //then current player is allowed to place a new piece in that empty space we found earlier on
-                                               {
+                                                {                                                //then current player is allowed to place a new piece in that empty space we found earlier on
 
+                                                //still need to add check here to make sure there are no gaps between [i+m][j+n] and [i-(m*x)][j-(n*x)]
+                                                //otherwise, like with the second example board state, you get it thinking that black is allowed to place a piece
+                                                //at spots like (2,7) or (5,7) when they shouldn't be.
 
-                                                printf("\nCurrent Player type = %d (0=WHITE, 1=BLACK, 2=NONE), Able to put a piece at i=%d, j=%d, Anchor piece is i=%d, j=%d", currentPlayer.type, i+m+1, j+n+1, i+1, j+1);   //+1 so it match the printed grid numbers
-                                               board[i+m][j+n].type=AVAILABLE; // Needs rework  Done?
+                                //To reiterate, system does currently correctly include all allowable positions, but also includes a few it shouldn't, so these need to be weeded out
 
-                                               //if we do end up using graphical representation on board for available spaces, make sure to clear those before next cycle,
-                                               //something like "if board[i][j]==AVAILABLE, set to NONE     Done?
+                                                        printf("\nCurrent Player type = %d (0=WHITE, 1=BLACK, 2=NONE), Able to put a piece at i=%d, j=%d, Anchor piece is i=%d, j=%d", currentPlayer.type, i+m+1, j+n+1, i+1, j+1);   //+1 so it match the printed grid numbers
+                                                        board[i+m][j+n].type=AVAILABLE; // Needs rework  Done?
+
+                                                        //if we do end up using graphical representation on board for available spaces, make sure to clear those before next cycle,
+                                                        //something like "if board[i][j]==AVAILABLE, set to NONE     Done?
 
                                                }
                                  }
