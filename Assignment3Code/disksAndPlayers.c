@@ -109,40 +109,37 @@ void printBoard(disk board[SIZE][SIZE]){
 }
 void computePositions(disk board [SIZE][SIZE], player currentPlayer)
 {
-    int i, j, m, n, x, y;
+    int i, j, m, n, x;
 
 
     for(i=0;i<SIZE;i++)
     {
-        for(j=0; j<SIZE;j++)
+        for(j=0; j<SIZE;j++)        //loops through both dimensions of the array
         {
-            if((board[i][j].type!=currentPlayer.type)&&(board[i][j].type!=NONE)&&(board[i][j].type!=AVAILABLE))
+            if((board[i][j].type!=currentPlayer.type)&&(board[i][j].type!=NONE)&&(board[i][j].type!=AVAILABLE)) //i.e. if board[i][j].type is the opponent's colour
             {
-                for(m=-1;m<2;m++)   //searching in a 3-by-3 area centred on the opponent's disk
-                {
+                for(m=-1;m<2;m++)
+                {                       //searching in a 3-by-3 area centred on the opponent's disk
                     for(n=-1;n<2;n++)
                     {
-                        if(board[i+m][j+n].type==NONE&&(m!=0||n!=0)&&(i+m)>=0 && (i+m)<SIZE && (j+n)>=0 && (j+n)<SIZE)      //for any empty spaces where a new disk can be placed
-                            {
-                                 for(x=0;(i-(m*x))>=0 && (i-(m*x))<SIZE && (j-(n*x))>=0 && (j-(n*x))<SIZE;x++)
-                                 {
-                                     //for(y=0;;y++)
-                                     //{
+                        if(board[i+m][j+n].type==NONE&&(m!=0||n!=0/*is this bit still needed?*/)&&(i+m)>=0 && (i+m)<SIZE && (j+n)>=0 && (j+n)<SIZE)      //searching for any empty spaces where a new disk can be placed
+                            {                                                                                        //also makes sure it's not trying to check a space past the edges of the board
 
+                                 for(x=0;(i-(m*x))>=0 && (i-(m*x))<SIZE && (j-(n*x))>=0 && (j-(n*x))<SIZE;x++)  //considers the piece directly opposite the empty space relative to the anchor piece, then checks the piece after that in the same direction,
+                                 {                                                                             //and keeps going until it reaches an edge
 
-                                        if(board[i-(m*x)][j-(n*x)].type==currentPlayer.type)
-
+                                        if(board[i-(m*x)][j-(n*x)].type==currentPlayer.type)    //if any of those pieces we just considered are the same colour as the current player,
+                                                                                                //then current player is allowed to place a new piece in that empty space we found earlier on
                                                {
 
 
                                                 printf("\nCurrent Player type = %d (0=WHITE, 1=BLACK, 2=NONE), Able to put a piece at i=%d, j=%d, Anchor piece is i=%d, j=%d", currentPlayer.type, i+m, j+n, i, j);   //+1 so it match the printed grid numbers
-                                               board[i+m][j+n].type=AVAILABLE; // Needs rework
+                                               board[i+m][j+n].type=AVAILABLE; // Needs rework  Done?
 
                                                //if we do end up using graphical representation on board for available spaces, make sure to clear those before next cycle,
-                                               //something like "if board[i][j]==AVAILABLE, set to NONE
+                                               //something like "if board[i][j]==AVAILABLE, set to NONE     Done?
 
                                                }
-                                    // }
                                  }
                             }
 
