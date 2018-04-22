@@ -116,7 +116,7 @@ void printBoard(disk board[SIZE][SIZE]){
         }
     }
 }
-void computePositions(disk board[SIZE][SIZE], player currentPlayer, player otherPlayer, bool *cont) //now that you've added in other/player, you can simplify some of the later !NONE&&!AVAILABLE&&!currentPlayer type stuff
+void computePositions(disk board[SIZE][SIZE], player currentPlayer, bool *cont)
 {
     int i, j, m, n, x, y, counter=0;
     bool gap;
@@ -146,7 +146,7 @@ void computePositions(disk board[SIZE][SIZE], player currentPlayer, player other
                                                 {
                                                     if(board[i-(m*y)][j-(n*y)].type==NONE||board[i-(m*y)][j-(n*y)].type==AVAILABLE)
                                                     {                                                   //catches scenarios where there is another piece of current players colour on the other side of the anchor piece
-                                                        printf("\nI broke at %d, %d \n", i+m+1, j+n+1);      //but separated by a gap, which is not allowed
+                                                       // printf("\nI broke at %d, %d \n", i+m+1, j+n+1);      //but separated by a gap, which is not allowed
                                                         gap = true;
                                                         break;                              //therefore it breaks out, fails the final if condition because of the bool, and moves on to the next piece
                                                     }
@@ -175,16 +175,18 @@ void computePositions(disk board[SIZE][SIZE], player currentPlayer, player other
     puts("");
 
 
-    //from here downwards is for testing what will ultimately be the playerMove logic, can be copied and changed later
+    //from here downwards is for testing what will ultimately be the playerMove logic, can be copied, changed, deleted, etc later
 
     printBoard(board);
     refreshBoard(board);
 
     int row, col;
-    printf("\nInput row (0-7)\n");
+    printf("\nInput row (1-8)\n");
     scanf(" %d", &row);
-    printf("\nInput column (0-7)\n");
+    row--;
+    printf("\nInput column (1-8)\n");
     scanf(" %d", &col);
+    col--;
 
     board[row][col].type=currentPlayer.type;
 
@@ -193,27 +195,25 @@ void computePositions(disk board[SIZE][SIZE], player currentPlayer, player other
         for(n=-1;n<2;n++)
             {
 
-                printf("type = %d. This should only be printed as an opponent's disk co-ordinates if it's a type one (in this example) \n", board[row+m][col+n].type);
+                //printf("type = %d. This should only be printed as an opponent's disk co-ordinates if it's a type 1 (in this example) \n", board[row+m][col+n].type);
 
-            if((board[row+m][col+n].type!=currentPlayer.type)&&(board[row+m][col+n].type!=NONE)&&(board[row+m][col+n].type!=AVAILABLE))
+            if((board[row+m][col+n].type!=currentPlayer.type)&&(board[row+m][col+n].type!=NONE)&&(board[row+m][col+n].type!=AVAILABLE)) //finds adjacent disks of opponent's colour
             {
 
             //yes in theory these should/could be combined into one if statement, but for whatevet reason this seems to work better, it was letting through all types when combined
 
-            if((row+m)>=0 && (row+m)<SIZE && (col+n)>=0 && (col+n)<SIZE);//finds adjacent disks of opponent's colour
+            if((row+m)>=0 && (row+m)<SIZE && (col+n)>=0 && (col+n)<SIZE);   //without considering positions off of the board
                 {
                 for(x=1;(row+(m*x))>=0 && (row+(m*x))<SIZE && (col+(n*x))>=0 && (col+(n*x))<SIZE;x++)  //and keeps going in that direction until it reaches an edge
                     {
-                         printf("opponents disk at %d, %d\n", row+m+1, col+n+1); //+1 just to match printed grid numbers
+                         //printf("opponents disk at %d, %d\n", row+m+1, col+n+1); //+1 just to match printed grid numbers
 
                     if(board[row+(m*x)][col+(n*x)].type==currentPlayer.type)    //if any of those pieces we just considered are the same colour as the newly placed disk
                         {
                         for(y=x-1;y>0;y--)          //then change the colour of every disk inbetween the newly placed disk and the other same-coloured disk just found to currentplayer's colour
                             {
                             board[row+(m*y)][col+(n*y)].type=currentPlayer.type;
-                            //player
-
-
+                            //implement score updates here
                             }
                         }
                     }

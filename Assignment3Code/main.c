@@ -21,7 +21,7 @@ int main()
 
     //testing sample board state
 
-    computePositions(board, player2, player1, &cont);
+    computePositions(board, player2, &cont);
 
     //computePositions(board, player1, &cont);
 
