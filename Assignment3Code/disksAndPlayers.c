@@ -131,7 +131,7 @@ void computePositions(disk board[SIZE][SIZE], player currentPlayer, bool *cont)
                 {                       //searching in a 3-by-3 area centred on the opponent's disk
                     for(n=-1;n<2;n++)
                     {
-                        gap = false;
+                        gap = false;        //by default it believes there is no gap between the anchor piece and the other piece of current player's colour until provwn otherwise
 
                         if(board[i+m][j+n].type==NONE&&(m!=0||n!=0/*is this bit still needed?*/)&&(i+m)>=0 && (i+m)<SIZE && (j+n)>=0 && (j+n)<SIZE)      //searching for any empty spaces where a new disk can be placed
                         {                                                                                        //also makes sure it's not trying to check a space past the edges of the board
@@ -144,22 +144,12 @@ void computePositions(disk board[SIZE][SIZE], player currentPlayer, bool *cont)
 
                                                 for(y=x-1;y>0;y--)
                                                 {
-
-
                                                     if(board[i-(m*y)][j-(n*y)].type==NONE||board[i-(m*y)][j-(n*y)].type==AVAILABLE)
-                                                    {
-                                                        printf("\nI broke at %d, %d \n", i+m+1, j+n+1);
+                                                    {                                                   //catches scenarios where there is another piece of current players colour on the other side of the anchor piece
+                                                        printf("\nI broke at %d, %d \n", i+m+1, j+n+1);      //but separated by a gap, which is not allowed
                                                         gap = true;
-                                                        break;
+                                                        break;                              //therefore it breaks out, fails the final if condition because of the bool, and moves on to the next piece
                                                     }
-
-
-
-                                                //still need to add check here to make sure there are no gaps between [i+m][j+n] and [i-(m*x)][j-(n*x)]
-                                                //otherwise, like with the second example board state, you get it thinking that black is allowed to place a piece
-                                                //at spots like (2,7) or (5,7) when they shouldn't be.
-
-                                //To reiterate, system does currently correctly include all allowable positions, but also includes a few it shouldn't, so these need to be weeded out
                                                 }
 
                                                 if(gap==false)
@@ -168,8 +158,6 @@ void computePositions(disk board[SIZE][SIZE], player currentPlayer, bool *cont)
                                                         printf("\nCurrent Player type = %d (0=WHITE, 1=BLACK, 2=NONE), Able to put a piece at i=%d, j=%d, Anchor piece is i=%d, j=%d", currentPlayer.type, i+m+1, j+n+1, i+1, j+1);   //+1 so it match the printed grid numbers
                                                         board[i+m][j+n].type=AVAILABLE;
                                                         counter++; // Looks if there are any available moves
-                                                        //if we do end up using graphical representation on board for available spaces, make sure to clear those before next cycle,
-                                                        //something like "if board[i][j]==AVAILABLE, set to NONE     Done?
                                                 }
 
 

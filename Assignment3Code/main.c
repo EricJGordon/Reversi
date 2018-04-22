@@ -20,12 +20,17 @@ int main()
     initializeBoard(board);
 
     //testing sample board state
+    /*
     computePositions(board, player2, &cont);
     printBoard(board);
     refreshBoard(board);
 
+    computePositions(board, player1, &cont);
+    printBoard(board);
+    refreshBoard(board);
+*/
 
-/*
+
     while (cont = true){
 
         computePositions(board, player1, &cont);
@@ -46,7 +51,7 @@ int main()
         playerMove(board, player2);
         refreshBoard(board);
 
-}*/
+}
     printEndScreen(player1, player2);
     return 0;
 }
