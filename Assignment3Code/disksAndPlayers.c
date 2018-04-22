@@ -119,7 +119,7 @@ void printBoard(disk board[SIZE][SIZE]){
 void computePositions(disk board[SIZE][SIZE], player currentPlayer, bool *cont)
 {
     int i, j, m, n, x, y, counter=0;
-
+    bool gap;
 
     for(i=0;i<SIZE;i++)
     {
@@ -131,6 +131,8 @@ void computePositions(disk board[SIZE][SIZE], player currentPlayer, bool *cont)
                 {                       //searching in a 3-by-3 area centred on the opponent's disk
                     for(n=-1;n<2;n++)
                     {
+                        gap = false;
+
                         if(board[i+m][j+n].type==NONE&&(m!=0||n!=0/*is this bit still needed?*/)&&(i+m)>=0 && (i+m)<SIZE && (j+n)>=0 && (j+n)<SIZE)      //searching for any empty spaces where a new disk can be placed
                         {                                                                                        //also makes sure it's not trying to check a space past the edges of the board
 
@@ -147,6 +149,7 @@ void computePositions(disk board[SIZE][SIZE], player currentPlayer, bool *cont)
                                                     if(board[i-(m*y)][j-(n*y)].type==NONE||board[i-(m*y)][j-(n*y)].type==AVAILABLE)
                                                     {
                                                         printf("\nI broke at %d, %d \n", i+m+1, j+n+1);
+                                                        gap = true;
                                                         break;
                                                     }
 
@@ -157,14 +160,18 @@ void computePositions(disk board[SIZE][SIZE], player currentPlayer, bool *cont)
                                                 //at spots like (2,7) or (5,7) when they shouldn't be.
 
                                 //To reiterate, system does currently correctly include all allowable positions, but also includes a few it shouldn't, so these need to be weeded out
+                                                }
+
+                                                if(gap==false)
+                                                {
 
                                                         printf("\nCurrent Player type = %d (0=WHITE, 1=BLACK, 2=NONE), Able to put a piece at i=%d, j=%d, Anchor piece is i=%d, j=%d", currentPlayer.type, i+m+1, j+n+1, i+1, j+1);   //+1 so it match the printed grid numbers
                                                         board[i+m][j+n].type=AVAILABLE;
                                                         counter++; // Looks if there are any available moves
                                                         //if we do end up using graphical representation on board for available spaces, make sure to clear those before next cycle,
                                                         //something like "if board[i][j]==AVAILABLE, set to NONE     Done?
-
                                                 }
+
 
                                             }
                                  }
