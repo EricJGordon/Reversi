@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
+#include <stdbool.h>
 #include "disksAndPlayers.h"
 
 
@@ -74,8 +74,8 @@ void initializeBoard(disk board [SIZE][SIZE]){
     //example board state used to test computePositions function
 
 
-    board[0][2].type=board[1][2].type=board[2][2].type=board[2][3].type=board[2][1].type=board[3][2].type=board[4][2].type=board[4][3].type=board[4][4].type=WHITE;
-    board[1][5].type=board[2][4].type=board[3][3].type=board[3][4].type=board[3][5].type=BLACK;
+    //board[0][2].type=board[1][2].type=board[2][2].type=board[2][3].type=board[2][1].type=board[3][2].type=board[4][2].type=board[4][3].type=board[4][4].type=WHITE;
+    //board[1][5].type=board[2][4].type=board[3][3].type=board[3][4].type=board[3][5].type=BLACK;
 
     //another sample board state
 
@@ -116,9 +116,9 @@ void printBoard(disk board[SIZE][SIZE]){
         }
     }
 }
-void computePositions(disk board [SIZE][SIZE], player currentPlayer)
+void computePositions(disk board[SIZE][SIZE], player currentPlayer, bool *cont)
 {
-    int i, j, m, n, x, y;
+    int i, j, m, n, x, counter=0;
 
 
     for(i=0;i<SIZE;i++)
@@ -132,7 +132,7 @@ void computePositions(disk board [SIZE][SIZE], player currentPlayer)
                     for(n=-1;n<2;n++)
                     {
                         if(board[i+m][j+n].type==NONE&&(m!=0||n!=0/*is this bit still needed?*/)&&(i+m)>=0 && (i+m)<SIZE && (j+n)>=0 && (j+n)<SIZE)      //searching for any empty spaces where a new disk can be placed
-                            {                                                                                        //also makes sure it's not trying to check a space past the edges of the board
+                        {                                                                                        //also makes sure it's not trying to check a space past the edges of the board
 
                                  for(x=0;(i-(m*x))>=0 && (i-(m*x))<SIZE && (j-(n*x))>=0 && (j-(n*x))<SIZE;x++)  //considers the piece directly opposite the empty space relative to the anchor piece, then checks the piece after that in the same direction,
                                  {                                                                             //and keeps going until it reaches an edge
@@ -147,37 +147,22 @@ void computePositions(disk board [SIZE][SIZE], player currentPlayer)
                                 //To reiterate, system does currently correctly include all allowable positions, but also includes a few it shouldn't, so these need to be weeded out
 
                                                         printf("\nCurrent Player type = %d (0=WHITE, 1=BLACK, 2=NONE), Able to put a piece at i=%d, j=%d, Anchor piece is i=%d, j=%d", currentPlayer.type, i+m+1, j+n+1, i+1, j+1);   //+1 so it match the printed grid numbers
-                                                        board[i+m][j+n].type=AVAILABLE; // Needs rework  Done?
-
+                                                        board[i+m][j+n].type=AVAILABLE;
+                                                        counter++; // Looks if there are any available moves
                                                         //if we do end up using graphical representation on board for available spaces, make sure to clear those before next cycle,
                                                         //something like "if board[i][j]==AVAILABLE, set to NONE     Done?
 
                                                }
                                  }
-                            }
-
-
+                        }
                     }
                 }
             }
         }
     }
-
+    if (counter == 0) // if there are no available moves, changes the bool variable to break the main game loop
+        cont = false;
     puts("");
-    printBoard(board);
-    for(i=0;i<8;i++)
-    {
-        for(j=0; j<8;j++)
-        {
-            if(board[i][j].type==AVAILABLE)
-            {
-                board[i][j].type=NONE;
-            }
-        }
-    }
-
-
-
 }
 
 void printEndScreen(player player1, player player2)
@@ -203,4 +188,65 @@ void printEndScreen(player player1, player player2)
 
 
 }
+// Function which prepares the board for the opponent's turn
+void refreshBoard(disk board[SIZE][SIZE]){
+    for (int x=0; x<SIZE; x++){
+        for (int y=0; y<SIZE; y++){
+            if (board[x][y].type == AVAILABLE){
+                board[x][y].type = NONE;
+            }
+        }
+    }
+}
+ // Player move function which takes the user's square selection
+void playerMove(disk board[SIZE][SIZE], player currentPlayer){
+    char xAxis;
+    int yAxis, axisConvert;
+    // Loop that checks if the input for the X Axis is valid (both uppercase and lowercase accepted)
+    do{
+        puts("Please enter a letter (horizontal axis) for your desired square:");
+        xAxis = getchar();
 
+        if (!(xAxis < 65 || xAxis > 72) || !(xAxis < 97 || xAxis > 104)){
+            puts("Invalid character.");
+        }
+    }while(!(xAxis < 65 || xAxis > 72) || !(xAxis < 97 || xAxis > 104));
+    // Converts the letters into a number to be used in the board position array (uppercase)
+    if (xAxis > 64 && xAxis < 73){
+
+        axisConvert = xAxis - 72 + 8;
+    }
+    // Converts the letters into a number to be used in the board position array (lowercase)
+    if (xAxis > 96 && xAxis < 105){
+        axisConvert = xAxis - 105 + 8;
+    }
+
+    // Loop that checks if the input for the Y Axis is valid
+    do{
+        puts("Please enter a number (vertical axis) for your desired square:");
+        scanf("%d ", &yAxis);
+
+        if (yAxis < 1 || yAxis > 8){
+            puts("Invalid character.");
+        }
+    }while(yAxis < 1 || yAxis > 8);
+    // Linked list initialisation protoype, does not work as of now for some reason, too late in the night to dig at it
+    pMovePtr hAxis = NULL;
+    hAxis = malloc(size_t(PMove));
+    hAxis->Axis=xAxis;
+    hAxis->vAxis=malloc(size_t(PMove));
+    hAxis->vAxis->Axis=axisConvert;
+    hAxis->vAxis->vAxis = NULL;
+    // Checks if the user selected an available square and calls the function all over again if the square is invalid
+    if (board[hAxis->Axis][hAxis->vAxis->Axis].type != AVAILABLE){
+        puts("Invalid square selected.");
+        free(hAxis->vAxis);
+        free(hAxis);
+        playerMove(board, currentPlayer);
+    }
+    // Makes the move
+    else{
+        board[hAxis->Axis][hAxis->vAxis->Axis].type = currentPlayer.type;
+        // Needs an algorithm here to convert the opponent's disks into the current player's colour
+    }
+}

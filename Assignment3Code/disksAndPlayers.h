@@ -24,14 +24,23 @@
         int points;
     } player;
 
+    typedef struct pMove{
+        int Axis;
+        struct pMove * vAxis;
+    } PMove;
+
+    typedef PMove *pMovePtr;
 
     void initializePlayers(player *player1, player *player2);
 
     void initializeBoard(disk board[SIZE][SIZE]);
 
-    void printBoard(disk board [SIZE][SIZE]);
+    void printBoard(disk board[SIZE][SIZE]);
 
-    void computePositions(disk board[SIZE][SIZE], player currentPlayer);
+    void computePositions(disk board[SIZE][SIZE], player currentPlayer, bool *cont);
 
     void printEndScreen(player player1, player player2);
 
+    void refreshBoard(disk board[SIZE][SIZE]);
+
+    void playerMove(disk board[SIZE][SIZE], player currentPlayer);
