@@ -23,11 +23,11 @@ int main()
 
         computePositions(board, player1, &cont);
         printBoard(board);
+
         if (cont = false)
             break;
 
         playerMove(board, player1);
-
         refreshBoard(board);
 
         computePositions(board, player2, &cont);
@@ -36,26 +36,9 @@ int main()
         if (cont = false)
             break;
 
-        playerMove(board, player1);
-
+        playerMove(board, player2);
         refreshBoard(board);
-        //printf("\n\n%d, %d\n", player1.type, player2.type); troubleshooting player types
+
 }
-
-
-    /*for(i=0;i<32;i++)
-        {
-            computePositions(board, player1);
-
-
-            computePositions(board, player2);
-        }*/
-
-    //invoke a method that implements the game logic
-
-        //invoke a method that prints the final result
-
         printEndScreen(player1, player2);
-
-
 }
