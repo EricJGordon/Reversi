@@ -40,5 +40,6 @@ int main()
         refreshBoard(board);
 
 }
-        printEndScreen(player1, player2);
+    printEndScreen(player1, player2);
+    return 0;
 }
