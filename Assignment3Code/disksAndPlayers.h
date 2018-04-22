@@ -37,7 +37,7 @@
 
     void printBoard(disk board[SIZE][SIZE]);
 
-    void computePositions(disk board[SIZE][SIZE], player currentPlayer, bool *cont);
+    void computePositions(disk board[SIZE][SIZE], player currentPlayer, player otherPlayer, bool *cont);
 
     void printEndScreen(player player1, player player2);
 
