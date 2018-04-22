@@ -74,8 +74,8 @@ void initializeBoard(disk board [SIZE][SIZE]){
     //example board state used to test computePositions function
 
 
-    //board[0][2].type=board[1][2].type=board[2][2].type=board[2][3].type=board[2][1].type=board[3][2].type=board[4][2].type=board[4][3].type=board[4][4].type=WHITE;
-    //board[1][5].type=board[2][4].type=board[3][3].type=board[3][4].type=board[3][5].type=BLACK;
+    board[1][1].type=board[0][2].type=board[1][2].type=board[2][2].type=board[2][3].type=board[2][1].type=board[3][2].type=board[4][2].type=board[4][3].type=board[4][4].type=WHITE;
+    board[1][5].type=board[2][4].type=board[3][3].type=board[3][4].type=board[3][5].type=BLACK;
 
     //another sample board state
 
@@ -118,7 +118,7 @@ void printBoard(disk board[SIZE][SIZE]){
 }
 void computePositions(disk board[SIZE][SIZE], player currentPlayer, bool *cont)
 {
-    int i, j, m, n, x, counter=0;
+    int i, j, m, n, x, y, counter=0;
 
 
     for(i=0;i<SIZE;i++)
@@ -134,11 +134,23 @@ void computePositions(disk board[SIZE][SIZE], player currentPlayer, bool *cont)
                         if(board[i+m][j+n].type==NONE&&(m!=0||n!=0/*is this bit still needed?*/)&&(i+m)>=0 && (i+m)<SIZE && (j+n)>=0 && (j+n)<SIZE)      //searching for any empty spaces where a new disk can be placed
                         {                                                                                        //also makes sure it's not trying to check a space past the edges of the board
 
-                                 for(x=0;(i-(m*x))>=0 && (i-(m*x))<SIZE && (j-(n*x))>=0 && (j-(n*x))<SIZE;x++)  //considers the piece directly opposite the empty space relative to the anchor piece, then checks the piece after that in the same direction,
+                                 for(x=1;(i-(m*x))>=0 && (i-(m*x))<SIZE && (j-(n*x))>=0 && (j-(n*x))<SIZE;x++)  //considers the piece directly opposite the empty space relative to the anchor piece, then checks the piece after that in the same direction,
                                  {                                                                             //and keeps going until it reaches an edge
 
                                         if(board[i-(m*x)][j-(n*x)].type==currentPlayer.type)    //if any of those pieces we just considered are the same colour as the current player,
-                                                {                                                //then current player is allowed to place a new piece in that empty space we found earlier on
+                                            {                                                //then current player is allowed to place a new piece in that empty space we found earlier on
+
+                                                for(y=x-1;y>0;y--)
+                                                {
+
+
+                                                    if(board[i-(m*y)][j-(n*y)].type==NONE||board[i-(m*y)][j-(n*y)].type==AVAILABLE)
+                                                    {
+                                                        printf("\nI broke at %d, %d \n", i+m+1, j+n+1);
+                                                        break;
+                                                    }
+
+
 
                                                 //still need to add check here to make sure there are no gaps between [i+m][j+n] and [i-(m*x)][j-(n*x)]
                                                 //otherwise, like with the second example board state, you get it thinking that black is allowed to place a piece
@@ -152,7 +164,9 @@ void computePositions(disk board[SIZE][SIZE], player currentPlayer, bool *cont)
                                                         //if we do end up using graphical representation on board for available spaces, make sure to clear those before next cycle,
                                                         //something like "if board[i][j]==AVAILABLE, set to NONE     Done?
 
-                                               }
+                                                }
+
+                                            }
                                  }
                         }
                     }
@@ -232,9 +246,9 @@ void playerMove(disk board[SIZE][SIZE], player currentPlayer){
     }while(yAxis < 1 || yAxis > 8);
     // Linked list initialisation protoype, does not work as of now for some reason, too late in the night to dig at it
     pMovePtr hAxis = NULL;
-    hAxis = malloc(size_t(PMove));
+    hAxis = malloc(sizeof(PMove));
     hAxis->Axis=xAxis;
-    hAxis->vAxis=malloc(size_t(PMove));
+    hAxis->vAxis=malloc(sizeof(PMove));
     hAxis->vAxis->Axis=axisConvert;
     hAxis->vAxis->vAxis = NULL;
     // Checks if the user selected an available square and calls the function all over again if the square is invalid
