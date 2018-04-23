@@ -21,13 +21,13 @@ int main()
 
     //testing sample board state
 
-    computePositions(board, player2, &cont);
+    //computePositions(board, player2, &cont);
 
     //computePositions(board, player1, &cont);
 
 
 
-/*
+
     while (cont = true)
         {
 
@@ -49,7 +49,7 @@ int main()
         playerMove(board, player2);
         refreshBoard(board);
         }
-        */
+
 
     printEndScreen(player1, player2);
     return 0;

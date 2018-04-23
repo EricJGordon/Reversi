@@ -74,8 +74,8 @@ void initializeBoard(disk board [SIZE][SIZE]){
     //example board state used to test computePositions function
 
 
-    board[1][1].type=board[0][2].type=board[1][2].type=board[2][2].type=board[2][3].type=board[2][1].type=board[3][2].type=board[4][2].type=board[4][3].type=board[4][4].type=WHITE;
-    board[1][5].type=board[2][4].type=board[3][3].type=board[3][4].type=board[3][5].type=BLACK;
+    //board[1][1].type=board[0][2].type=board[1][2].type=board[2][2].type=board[2][3].type=board[2][1].type=board[3][2].type=board[4][2].type=board[4][3].type=board[4][4].type=WHITE;
+    //board[1][5].type=board[2][4].type=board[3][3].type=board[3][4].type=board[3][5].type=BLACK;
 
     //another sample board state
 
@@ -177,7 +177,7 @@ void computePositions(disk board[SIZE][SIZE], player currentPlayer, bool *cont)
 
     //from here downwards is for testing what will ultimately be the playerMove logic, can be copied, changed, deleted, etc later
 
-    printBoard(board);
+    /*printBoard(board);
     refreshBoard(board);
 
     int row, col;
@@ -225,7 +225,7 @@ void computePositions(disk board[SIZE][SIZE], player currentPlayer, bool *cont)
             printBoard(board);
 
 
-
+*/
 }
 
 void printEndScreen(player player1, player player2)
@@ -264,29 +264,31 @@ void refreshBoard(disk board[SIZE][SIZE]){
  // Player move function which takes the user's square selection
 void playerMove(disk board[SIZE][SIZE], player currentPlayer){
     char xAxis;
-    int yAxis, axisConvert;
+    int yAxis, axisConvert, n, x, y, m;
     // Loop that checks if the input for the X Axis is valid (both uppercase and lowercase accepted)
     do{
-        puts("Please enter a letter (horizontal axis) for your desired square:");
+        puts("\nPlease enter a letter (horizontal axis) for your desired square:");
         xAxis = getchar();
-
-        if (!(xAxis < 65 || xAxis > 72) || !(xAxis < 97 || xAxis > 104)){
+        printf("Entered character: %d\n", xAxis);
+        if (!((xAxis >= 'a' && xAxis <= 'h') || (xAxis >= 'A' && xAxis <= 'H'))){
             puts("Invalid character.");
         }
-    }while(!(xAxis < 65 || xAxis > 72) || !(xAxis < 97 || xAxis > 104));
+    }while(!((xAxis >= 'a' && xAxis <= 'h') || (xAxis >= 'A' && xAxis <= 'H')));
     // Converts the letters into a number to be used in the board position array (uppercase)
     if (xAxis > 64 && xAxis < 73){
 
         axisConvert = xAxis - 72 + 8;
+        printf("Converted x Axis : %d\n", axisConvert);
     }
     // Converts the letters into a number to be used in the board position array (lowercase)
     if (xAxis > 96 && xAxis < 105){
         axisConvert = xAxis - 105 + 8;
+        printf("Converted x Axis : %d\n", axisConvert);
     }
 
     // Loop that checks if the input for the Y Axis is valid
     do{
-        puts("Please enter a number (vertical axis) for your desired square:");
+        puts("\nPlease enter a number (vertical axis) for your desired square:");
         scanf("%d ", &yAxis);
 
         if (yAxis < 1 || yAxis > 8){
@@ -294,14 +296,18 @@ void playerMove(disk board[SIZE][SIZE], player currentPlayer){
         }
     }while(yAxis < 1 || yAxis > 8);
     // Linked list initialisation protoype, does not work as of now for some reason, too late in the night to dig at it
+
     pMovePtr hAxis = NULL;
     hAxis = malloc(sizeof(PMove));
-    hAxis->Axis=xAxis;
+    hAxis->Axis=axisConvert;
     hAxis->vAxis=malloc(sizeof(PMove));
-    hAxis->vAxis->Axis=axisConvert;
+    hAxis->vAxis->Axis= yAxis;
     hAxis->vAxis->vAxis = NULL;
+    printf("X Axis Selection : %d\n", hAxis->Axis-1);
+    printf("Y Axis Selection : %d\n", hAxis->vAxis->Axis-1);
+
     // Checks if the user selected an available square and calls the function all over again if the square is invalid
-    if (board[hAxis->Axis][hAxis->vAxis->Axis].type != AVAILABLE){
+    if (board[hAxis->Axis-1][hAxis->vAxis->Axis-1].type != AVAILABLE){
         puts("Invalid square selected.");
         free(hAxis->vAxis);
         free(hAxis);
@@ -310,6 +316,37 @@ void playerMove(disk board[SIZE][SIZE], player currentPlayer){
     // Makes the move
     else{
         board[hAxis->Axis][hAxis->vAxis->Axis].type = currentPlayer.type;
-        // Needs an algorithm here to convert the opponent's disks into the current player's colour
+        for(m=-1;m<2;m++)
+        {                       //searching in a 3-by-3 area centred on the your newly placed disk
+        for(n=-1;n<2;n++)
+            {
+
+                //printf("type = %d. This should only be printed as an opponent's disk co-ordinates if it's a type 1 (in this example) \n", board[axisConvert+m][yAxis+n].type);
+
+            if((board[axisConvert+m][yAxis+n].type!=currentPlayer.type)&&(board[axisConvert+m][yAxis+n].type!=NONE)&&(board[axisConvert+m][yAxis+n].type!=AVAILABLE)) //finds adjacent disks of opponent's colour
+            {
+
+            //yes in theory these should/could be combined into one if statement, but for whatevet reason this seems to work better, it was letting through all types when combined
+
+            if((axisConvert+m)>=0 && (axisConvert+m)<SIZE && (yAxis+n)>=0 && (yAxis+n)<SIZE);   //without considering positions off of the board
+                {
+                for(x=1;(axisConvert+(m*x))>=0 && (axisConvert+(m*x))<SIZE && (yAxis+(n*x))>=0 && (yAxis+(n*x))<SIZE;x++)  //and keeps going in that direction until it reaches an edge
+                    {
+                         //printf("opponents disk at %d, %d\n", axisConvert+m+1, yAxis+n+1); //+1 just to match printed grid numbers
+
+                    if(board[axisConvert+(m*x)][yAxis+(n*x)].type==currentPlayer.type)    //if any of those pieces we just considered are the same colour as the newly placed disk
+                        {
+                        for(y=x-1;y>0;y--)          //then change the colour of every disk inbetween the newly placed disk and the other same-coloured disk just found to currentplayer's colour
+                            {
+                            board[axisConvert+(m*y)][yAxis+(n*y)].type=currentPlayer.type;
+                            //implement score updates here
+                            }
+                        }
+                    }
+                }
+              }
+            }
+        }// Needs an algorithm here to convert the opponent's disks into the current player's colour
     }
+
 }
