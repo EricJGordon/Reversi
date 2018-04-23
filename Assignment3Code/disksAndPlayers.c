@@ -299,15 +299,15 @@ void playerMove(disk board[SIZE][SIZE], player currentPlayer){
 
     pMovePtr hAxis = NULL;
     hAxis = malloc(sizeof(PMove));
-    hAxis->Axis=axisConvert;
+    hAxis->Axis=axisConvert-1;
     hAxis->vAxis=malloc(sizeof(PMove));
-    hAxis->vAxis->Axis= yAxis;
+    hAxis->vAxis->Axis= yAxis-1;
     hAxis->vAxis->vAxis = NULL;
-    printf("X Axis Selection : %d\n", hAxis->Axis-1);
-    printf("Y Axis Selection : %d\n", hAxis->vAxis->Axis-1);
+    printf("ARRAY X Axis Selection : %d\n", hAxis->Axis);
+    printf("ARRAY Y Axis Selection : %d\n", hAxis->vAxis->Axis);
 
     // Checks if the user selected an available square and calls the function all over again if the square is invalid
-    if (board[hAxis->Axis-1][hAxis->vAxis->Axis-1].type != AVAILABLE){
+    if (board[hAxis->Axis][hAxis->vAxis->Axis].type != AVAILABLE){
         puts("Invalid square selected.");
         free(hAxis->vAxis);
         free(hAxis);
@@ -315,7 +315,7 @@ void playerMove(disk board[SIZE][SIZE], player currentPlayer){
     }
     // Makes the move
     else{
-        board[hAxis->Axis-1][hAxis->vAxis->Axis-1].type = currentPlayer.type;
+        board[hAxis->Axis][hAxis->vAxis->Axis].type = currentPlayer.type;
         for(m=-1;m<2;m++)
         {                       //searching in a 3-by-3 area centred on the your newly placed disk
         for(n=-1;n<2;n++)
