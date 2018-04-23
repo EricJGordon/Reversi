@@ -1,0 +1,38 @@
+First of all we decided to use much of the provided code as a template, 
+to avoid introducing in extra unneccessary variables to possibly mess things up. 
+An example of a change that needed to be made though, for example, 
+was changing the pre-existing function initializePlayers, 
+and changing it from pass-by-value to pass-by-reference. 
+This way, when each player was assigned their names, colour types, etc, 
+those bits of data would be accessable from other functions as well. 
+Another was to change the 1's and 0's representing Black and White to B's and W's,
+for readability purposes.
+
+The first logic aspect that we tackled was the function computePositions, handled by Eric, 
+which was used to determine where the player was allowed to put their next piece. 
+This took several iterations to finally be able to catch all cases.
+It started by scanning through each piece on the board, looking for an opponen't piece, then,
+in a 3-by-3 grid centred on that anchor piece, it looked for any adjacent pieces of currentPlayer's type.
+Next, it checked to see if there was another piece of currentPlayer's type in a straight line 
+that would allow the piece to be played.
+
+First it only caught cases where the other piece of currentPlayer's type 
+was on the opposite side of the opponents piece from where you were trying to place a new piece. 
+Then, later, it was changed to multiply the offset variables so that it would also work 
+when the other piece of currentPlayer's type was further away, along the same direction relative to the opponent's piece. 
+This though had problems of its own, as it would incorrectly allow cases where an empty square seperated the pieces.
+Finally, a boolean was used to detect these gaps, and all scenarios were accounted for.
+
+The printEndScreen function was also included around this point.
+
+Next, it was up to Rokas to use linked lists to store this information and ask the user 
+which of the acceptable positions they would like to put their next piece in. 
+While this was taking place, Eric worked on the logic for flipping disks after a new piece would be placed.
+It helped that it turned out that a lot of the previously developed logic for computePositions could also 
+be more or less reused for this, with a little tinkering. Because the user input mechanism was not finished yet,
+this was temporarily stuck at the bottom of computePositions. 
+ 
+After the user input mechanism had been finished, both members made little changes here and there, 
+as they saw need for them, preparing the program to be user-ready, helping eachother when they got stuck. 
+Finally, all that was left to be done was for Rokas to include the mechanism to save the results to a file, 
+and for Eric to write up this documentation.
