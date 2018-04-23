@@ -268,8 +268,8 @@ void playerMove(disk board[SIZE][SIZE], player currentPlayer){
     // Loop that checks if the input for the X Axis is valid (both uppercase and lowercase accepted)
     do{
         puts("\nPlease enter a letter (horizontal axis) for your desired square:");
-        xAxis = getchar();
-        printf("Entered character: %d\n", xAxis);
+        scanf ("%c", &xAxis);
+        printf("Entered character: %d \n", xAxis);
         if (!((xAxis >= 'a' && xAxis <= 'h') || (xAxis >= 'A' && xAxis <= 'H'))){
             puts("Invalid character.");
         }
@@ -278,18 +278,18 @@ void playerMove(disk board[SIZE][SIZE], player currentPlayer){
     if (xAxis > 64 && xAxis < 73){
 
         axisConvert = xAxis - 72 + 8;
-        printf("Converted x Axis : %d\n", axisConvert);
+        printf("Converted x Axis : %d ", axisConvert);
     }
     // Converts the letters into a number to be used in the board position array (lowercase)
     if (xAxis > 96 && xAxis < 105){
         axisConvert = xAxis - 105 + 8;
-        printf("Converted x Axis : %d\n", axisConvert);
+        printf("Converted x Axis : %d ", axisConvert);
     }
 
     // Loop that checks if the input for the Y Axis is valid
     do{
         puts("\nPlease enter a number (vertical axis) for your desired square:");
-        scanf("%d ", &yAxis);
+        scanf("%d", &yAxis);
 
         if (yAxis < 1 || yAxis > 8){
             puts("Invalid character.");
