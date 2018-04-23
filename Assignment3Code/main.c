@@ -33,6 +33,8 @@ int main()
 
         computePositions(board, player1, &cont);
         printBoard(board);
+        scores(board, &player1, &player2);
+
 
         if (cont = false)
             break;
@@ -42,6 +44,8 @@ int main()
 
         computePositions(board, player2, &cont);
         printBoard(board);
+        scores(board, &player1, &player2);
+
 
         if (cont = false)
             break;

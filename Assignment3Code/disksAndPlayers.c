@@ -356,3 +356,30 @@ void playerMove(disk board[SIZE][SIZE], player currentPlayer){
     }
 
 }
+
+
+void scores(disk board[SIZE][SIZE], player *player1, player *player2)
+{
+    int i, j;
+
+    player1->points=0;
+    player2->points=0;
+
+    for(i=0;i<SIZE;i++)
+    {
+        for(j=0;j<SIZE;j++)
+        {
+            if(board[i][j].type==player1->type)
+            {
+                player1->points++;
+            }
+
+            if(board[i][j].type==player2->type)
+            {
+                player2->points++;
+            }
+        }
+    }
+
+    printf("%s has %d points, %s has %d", player1->name, player1->points, player2->name, player2->points);
+}

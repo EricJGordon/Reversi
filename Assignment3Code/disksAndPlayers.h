@@ -44,3 +44,5 @@
     void refreshBoard(disk board[SIZE][SIZE]);
 
     void playerMove(disk board[SIZE][SIZE], player currentPlayer);
+
+    void scores(disk board[SIZE][SIZE], player *player1, player *player2);
