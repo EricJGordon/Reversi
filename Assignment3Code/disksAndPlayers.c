@@ -45,8 +45,8 @@ void initializeBoard(disk board [SIZE][SIZE]){
                         board[i][j].type = BLACK;
                     else
                         board[i][j].type = NONE;
-                    }
                 }
+            }
             else {
                 if(i==4){
                     if(j == 3)
@@ -56,30 +56,16 @@ void initializeBoard(disk board [SIZE][SIZE]){
                         board[i][j].type = WHITE;
                         else
                             board[i][j].type = NONE;
-                        }
                     }
+                }
                 else
                     board[i][j].type = NONE;
             }
             board[i][j].pos.row = i;
             board[i][j].pos.col = j;
-
-            }
         }
-
-
-    //board[4][0].type=board[4][1].type=board[2][2].type=board[2][3].type=board[2][4].type=board[3][4].type=board[4][4].type=board[5][4].type=WHITE;
-    //board[3][2].type=board[4][2].type=board[5][2].type=board[3][3].type=board[4][3].type=board[5][3].type=BLACK;
-
-    //example board state used to test computePositions function
-
-
-    //board[1][1].type=board[0][2].type=board[1][2].type=board[2][2].type=board[2][3].type=board[2][1].type=board[3][2].type=board[4][2].type=board[4][3].type=board[4][4].type=WHITE;
-    //board[1][5].type=board[2][4].type=board[3][3].type=board[3][4].type=board[3][5].type=BLACK;
-
-    //another sample board state
-
     }
+}
 
 
 void printBoard(disk board[SIZE][SIZE]){
@@ -131,101 +117,42 @@ void computePositions(disk board[SIZE][SIZE], player currentPlayer, bool *cont)
                 {                       //searching in a 3-by-3 area centred on the opponent's disk
                     for(n=-1;n<2;n++)
                     {
-                        gap = false;        //by default it believes there is no gap between the anchor piece and the other piece of current player's colour until provwn otherwise
-
-                        if(board[i+m][j+n].type==NONE&&(m!=0||n!=0/*is this bit still needed?*/)&&(i+m)>=0 && (i+m)<SIZE && (j+n)>=0 && (j+n)<SIZE)      //searching for any empty spaces where a new disk can be placed
+                        gap = false;
+                              //by default it believes there is no gap between the anchor piece and the other piece of current player's colour until provwn otherwise
+                        if(board[i+m][j+n].type==NONE&&(m!=0||n!=0)&&(i+m)>=0 && (i+m)<SIZE && (j+n)>=0 && (j+n)<SIZE)      //searching for any empty spaces where a new disk can be placed
                         {                                                                                        //also makes sure it's not trying to check a space past the edges of the board
 
-                                 for(x=1;(i-(m*x))>=0 && (i-(m*x))<SIZE && (j-(n*x))>=0 && (j-(n*x))<SIZE;x++)  //considers the piece directly opposite the empty space relative to the anchor piece, then checks the piece after that in the same direction,
-                                 {                                                                             //and keeps going until it reaches an edge
+                            for(x=1;(i-(m*x))>=0 && (i-(m*x))<SIZE && (j-(n*x))>=0 && (j-(n*x))<SIZE;x++)  //considers the piece directly opposite the empty space relative to the anchor piece, then checks the piece after that in the same direction,
+                            {                                                                             //and keeps going until it reaches an edge
 
-                                        if(board[i-(m*x)][j-(n*x)].type==currentPlayer.type)    //if any of those pieces we just considered are the same colour as the current player,
-                                            {                                                //then current player is allowed to place a new piece in that empty space we found earlier on
+                                if(board[i-(m*x)][j-(n*x)].type==currentPlayer.type)    //if any of those pieces we just considered are the same colour as the current player,
+                                {                                                //then current player is allowed to place a new piece in that empty space we found earlier on
 
-                                                for(y=x-1;y>0;y--)
-                                                {
-                                                    if(board[i-(m*y)][j-(n*y)].type==NONE||board[i-(m*y)][j-(n*y)].type==AVAILABLE)
-                                                    {                                                   //catches scenarios where there is another piece of current players colour on the other side of the anchor piece
-                                                       // printf("\nI broke at %d, %d \n", i+m+1, j+n+1);      //but separated by a gap, which is not allowed
-                                                        gap = true;
-                                                        break;                              //therefore it breaks out, fails the final if condition because of the bool, and moves on to the next piece
-                                                    }
-                                                }
+                                    for(y=x-1;y>0;y--)
+                                    {
+                                        if(board[i-(m*y)][j-(n*y)].type==NONE||board[i-(m*y)][j-(n*y)].type==AVAILABLE)
+                                        {                                       //catches scenarios where there is another piece of current players colour on the other side of the anchor piece
+                                            gap = true;
+                                            break;                              //therefore it breaks out, fails the final if condition because of the bool, and moves on to the next piece
+                                        }
+                                    }
+                                    if(gap==false)
+                                    {
+                                        board[i+m][j+n].type=AVAILABLE;
+                                        counter++;
 
-                                                if(gap==false)
-                                                {
-
-                                                        printf("\nCurrent Player type = %d (0=WHITE, 1=BLACK, 2=NONE), Able to put a piece at i=%d, j=%d, Anchor piece is i=%d, j=%d", currentPlayer.type, i+m+1, j+n+1, i+1, j+1);   //+1 so it match the printed grid numbers
-                                                        board[i+m][j+n].type=AVAILABLE;
-
-                                                        counter++; // Looks if there are any available moves
-                                                }       //could this just be changed to cont = true?
-                                                    //(and then also moving the original bool cont = false declaration to the top of this function instead of main)
-
-                                            }
-                                 }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    if (counter == 0) // if there are no available moves, changes the bool variable to break the main game loop
-        cont = false;
-    puts("");
-
-
-    //from here downwards is for testing what will ultimately be the playerMove logic, can be copied, changed, deleted, etc later
-
-    /*printBoard(board);
-    refreshBoard(board);
-
-    int row, col;
-    printf("\nInput row (1-8)\n");
-    scanf(" %d", &row);
-    row--;
-    printf("\nInput column (1-8)\n");
-    scanf(" %d", &col);
-    col--;
-
-    board[row][col].type=currentPlayer.type;
-
-    for(m=-1;m<2;m++)
-        {                       //searching in a 3-by-3 area centred on the your newly placed disk
-        for(n=-1;n<2;n++)
-            {
-
-                //printf("type = %d. This should only be printed as an opponent's disk co-ordinates if it's a type 1 (in this example) \n", board[row+m][col+n].type);
-
-            if((board[row+m][col+n].type!=currentPlayer.type)&&(board[row+m][col+n].type!=NONE)&&(board[row+m][col+n].type!=AVAILABLE)) //finds adjacent disks of opponent's colour
-            {
-
-            //yes in theory these should/could be combined into one if statement, but for whatevet reason this seems to work better, it was letting through all types when combined
-
-            if((row+m)>=0 && (row+m)<SIZE && (col+n)>=0 && (col+n)<SIZE);   //without considering positions off of the board
-                {
-                for(x=1;(row+(m*x))>=0 && (row+(m*x))<SIZE && (col+(n*x))>=0 && (col+(n*x))<SIZE;x++)  //and keeps going in that direction until it reaches an edge
-                    {
-                         //printf("opponents disk at %d, %d\n", row+m+1, col+n+1); //+1 just to match printed grid numbers
-
-                    if(board[row+(m*x)][col+(n*x)].type==currentPlayer.type)    //if any of those pieces we just considered are the same colour as the newly placed disk
-                        {
-                        for(y=x-1;y>0;y--)          //then change the colour of every disk inbetween the newly placed disk and the other same-coloured disk just found to currentplayer's colour
-                            {
-                            board[row+(m*y)][col+(n*y)].type=currentPlayer.type;
-                            //implement score updates here
+                                    }
+                                }
                             }
                         }
                     }
                 }
-              }
             }
         }
-
-            printBoard(board);
-
-
-*/
+    if (counter == 0) // if there are no available moves, changes the bool variable to break the main game loop
+        cont = false;
+    puts("");
+    }
 }
 
 void printEndScreen(player player1, player player2)
@@ -265,41 +192,41 @@ void refreshBoard(disk board[SIZE][SIZE]){
 void playerMove(disk board[SIZE][SIZE], player currentPlayer){
     char yAxis;
     int xAxis, axisConvert, n, x, y, m;
+
+    puts("*****************************************");
+    printf("\t%s's turn\n", currentPlayer.name);
+    puts("*****************************************");
+
     // Loop that checks if the input for the X Axis is valid (both uppercase and lowercase accepted)
     do{
-        puts("\nPlease enter the coordinates for your desired square (i.e. D3):");
+        puts("Please enter the coordinates for your desired square (i.e. D3):");
         scanf(" %c", &yAxis);
-        //printf("\nEntered character:%d \n", yAxis);
+
         if (!((yAxis >= 'a' && yAxis <= 'h') || (yAxis >= 'A' && yAxis <= 'H'))){
             puts("Invalid character.");
         }
-        else
-            break;
+
     }while(!((yAxis >= 'a' && yAxis <= 'h') || (yAxis >= 'A' && yAxis <= 'H')));
+
     // Converts the letters into a number to be used in the board position array (uppercase)
     if (yAxis >= 'A' && yAxis <= 'H'){
 
         axisConvert = yAxis - 'H' + 8;
-        //printf("Converted x Axis : %d ", axisConvert);
     }
+
     // Converts the letters into a number to be used in the board position array (lowercase)
     if (yAxis >= 'a' && yAxis <= 'h'){
         axisConvert = yAxis - 'h' + 8;
-        //printf("Converted x Axis : %d ", axisConvert);
     }
 
     // Loop that checks if the input for the Y Axis is valid
     do{
-        //puts("\nPlease enter a number (vertical axis) for your desired square:");
         scanf("%d", &xAxis);
-
         if (xAxis < 1 || xAxis > 8){
             puts("Invalid character.");
         }
-        else
-            break;
+
     }while(xAxis < 1 || xAxis > 8);
-    // Linked list initialisation protoype, does not work as of now for some reason, too late in the night to dig at it
 
     pMovePtr hAxis = NULL;
     hAxis = malloc(sizeof(PMove));
@@ -324,33 +251,31 @@ void playerMove(disk board[SIZE][SIZE], player currentPlayer){
         board[hAxis->Axis][hAxis->vAxis->Axis].type = currentPlayer.type;
         for(m=-1;m<2;m++)
         {                       //searching in a 3-by-3 area centred on the your newly placed disk
-        for(n=-1;n<2;n++)
+            for(n=-1;n<2;n++)
             {
 
-                //printf("type = %d. This should only be printed as an opponent's disk co-ordinates if it's a type 1 (in this example) \n", board[axisConvert+m][xAxis+n].type);
-
-            if((board[hAxis->Axis+m][hAxis->vAxis->Axis+n].type!=currentPlayer.type)&&(board[hAxis->Axis+m][hAxis->vAxis->Axis+n].type!=NONE)&&(board[hAxis->Axis+m][hAxis->vAxis->Axis+n].type!=AVAILABLE)) //finds adjacent disks of opponent's colour
-            {
-
-            //yes in theory these should/could be combined into one if statement, but for whatevet reason this seems to work better, it was letting through all types when combined
-
-            if((hAxis->Axis+m)>=0 && (hAxis->Axis+m)<SIZE && (hAxis->vAxis->Axis+n)>=0 && (hAxis->vAxis->Axis+n)<SIZE);   //without considering positions off of the board
+                if((board[hAxis->Axis+m][hAxis->vAxis->Axis+n].type!=currentPlayer.type)&&(board[hAxis->Axis+m][hAxis->vAxis->Axis+n].type!=NONE)&&(board[hAxis->Axis+m][hAxis->vAxis->Axis+n].type!=AVAILABLE)) //finds adjacent disks of opponent's colour
                 {
-                for(x=1;(hAxis->Axis+(m*x))>=0 && (hAxis->Axis+(m*x))<SIZE && (hAxis->vAxis->Axis+(n*x))>=0 && (hAxis->vAxis->Axis+(n*x))<SIZE;x++)  //and keeps going in that direction until it reaches an edge
-                    {
-                         //printf("opponents disk at %d, %d\n", hAxis->Axis+m+1, hAxis->vAxis->Axis+n+1); //+1 just to match printed grid numbers
 
-                    if(board[hAxis->Axis+(m*x)][hAxis->vAxis->Axis+(n*x)].type==currentPlayer.type)    //if any of those pieces we just considered are the same colour as the newly placed disk
+                //yes in theory these should/could be combined into one if statement, but for whatevet reason this seems to work better, it was letting through all types when combined
+
+                    if((hAxis->Axis+m)>=0 && (hAxis->Axis+m)<SIZE && (hAxis->vAxis->Axis+n)>=0 && (hAxis->vAxis->Axis+n)<SIZE);   //without considering positions off of the board
+                    {
+                        for(x=1;(hAxis->Axis+(m*x))>=0 && (hAxis->Axis+(m*x))<SIZE && (hAxis->vAxis->Axis+(n*x))>=0 && (hAxis->vAxis->Axis+(n*x))<SIZE;x++)  //and keeps going in that direction until it reaches an edge
                         {
-                        for(y=x-1;y>0;y--)          //then change the colour of every disk inbetween the newly placed disk and the other same-coloured disk just found to currentplayer's colour
+
+
+                            if(board[hAxis->Axis+(m*x)][hAxis->vAxis->Axis+(n*x)].type==currentPlayer.type)    //if any of those pieces we just considered are the same colour as the newly placed disk
                             {
-                            board[hAxis->Axis+(m*y)][hAxis->vAxis->Axis+(n*y)].type=currentPlayer.type;
-                            //implement score updates here
+                                for(y=x-1;y>0;y--)          //then change the colour of every disk inbetween the newly placed disk and the other same-coloured disk just found to currentplayer's colour
+                                {
+                                    board[hAxis->Axis+(m*y)][hAxis->vAxis->Axis+(n*y)].type=currentPlayer.type;
+                                    //implement score updates here
+                                }
                             }
                         }
                     }
                 }
-              }
             }
         }// Needs an algorithm here to convert the opponent's disks into the current player's colour
     }
@@ -381,5 +306,5 @@ void scores(disk board[SIZE][SIZE], player *player1, player *player2)
         }
     }
 
-    printf("%s has %d points, %s has %d", player1->name, player1->points, player2->name, player2->points);
+    printf("\n%s has %d points, %s has %d\n", player1->name, player1->points, player2->name, player2->points);
 }
