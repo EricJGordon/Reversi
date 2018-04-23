@@ -269,20 +269,20 @@ void playerMove(disk board[SIZE][SIZE], player currentPlayer){
     do{
         puts("\nPlease enter a letter (horizontal axis) for your desired square:");
         scanf ("%c", &xAxis);
-        printf("Entered character: %d \n", xAxis);
+        printf("\nEntered character:%d \n", xAxis);
         if (!((xAxis >= 'a' && xAxis <= 'h') || (xAxis >= 'A' && xAxis <= 'H'))){
             puts("Invalid character.");
         }
     }while(!((xAxis >= 'a' && xAxis <= 'h') || (xAxis >= 'A' && xAxis <= 'H')));
     // Converts the letters into a number to be used in the board position array (uppercase)
-    if (xAxis > 64 && xAxis < 73){
+    if (xAxis >= 'A' && xAxis <= 'H'){
 
-        axisConvert = xAxis - 72 + 8;
+        axisConvert = xAxis - 'H' + 8;
         printf("Converted x Axis : %d ", axisConvert);
     }
     // Converts the letters into a number to be used in the board position array (lowercase)
-    if (xAxis > 96 && xAxis < 105){
-        axisConvert = xAxis - 105 + 8;
+    if (xAxis >= 'a' && xAxis <= 'h'){
+        axisConvert = xAxis - 'h' + 8;
         printf("Converted x Axis : %d ", axisConvert);
     }
 
@@ -315,7 +315,7 @@ void playerMove(disk board[SIZE][SIZE], player currentPlayer){
     }
     // Makes the move
     else{
-        board[hAxis->Axis][hAxis->vAxis->Axis].type = currentPlayer.type;
+        board[hAxis->Axis-1][hAxis->vAxis->Axis-1].type = currentPlayer.type;
         for(m=-1;m<2;m++)
         {                       //searching in a 3-by-3 area centred on the your newly placed disk
         for(n=-1;n<2;n++)
