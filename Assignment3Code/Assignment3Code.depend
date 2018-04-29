@@ -20,16 +20,16 @@
 	<stdbool.h>
 	"disksAndPlayers.h"
 
-1524526588 source:c:\users\tavo veidas\gitproj\assignment3\assignment3code\disksandplayers.c
+1524529595 source:c:\users\tavo veidas\gitproj\assignment3\assignment3code\disksandplayers.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	<stdbool.h>
 	"disksAndPlayers.h"
 
-1524526533 c:\users\tavo veidas\gitproj\assignment3\assignment3code\disksandplayers.h
+1524529446 c:\users\tavo veidas\gitproj\assignment3\assignment3code\disksandplayers.h
 
-1524526533 source:c:\users\tavo veidas\gitproj\assignment3\assignment3code\main.c
+1524529502 source:c:\users\tavo veidas\gitproj\assignment3\assignment3code\main.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>

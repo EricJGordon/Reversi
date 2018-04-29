@@ -29,6 +29,8 @@
         struct pMove * vAxis;
     } PMove;
 
+    bool cont;
+
     typedef PMove *pMovePtr;
 
     void initializePlayers(player *player1, player *player2);
@@ -37,7 +39,7 @@
 
     void printBoard(disk board[SIZE][SIZE]);
 
-    void computePositions(disk board[SIZE][SIZE], player currentPlayer, bool *cont);
+    void computePositions(disk board[SIZE][SIZE], player currentPlayer);
 
     void printEndScreen(player player1, player player2);
 

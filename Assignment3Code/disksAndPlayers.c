@@ -102,7 +102,7 @@ void printBoard(disk board[SIZE][SIZE]){
         }
     }
 }
-void computePositions(disk board[SIZE][SIZE], player currentPlayer, bool *cont)
+void computePositions(disk board[SIZE][SIZE], player currentPlayer)
 {
     int i, j, m, n, x, y, counter=0;
     bool gap;
@@ -149,14 +149,16 @@ void computePositions(disk board[SIZE][SIZE], player currentPlayer, bool *cont)
                 }
             }
         }
+
+    }
     if (counter == 0) // if there are no available moves, changes the bool variable to break the main game loop
         cont = false;
     puts("");
-    }
 }
 
 void printEndScreen(player player1, player player2)
 {
+    FILE *ScoreSheet;
     printf("\nPlayer1 %s, points: %d", player1.name, player1.points);
     printf("\nPlayer2 %s, points: %d", player2.name, player2.points);
 
@@ -165,14 +167,20 @@ void printEndScreen(player player1, player player2)
     if(player1.points>player2.points)
     {
         printf("\nThe winner is %s", player1.name);
+        ScoreSheet = fopen("./Score.txt","w+");
+        fprintf(ScoreSheet, "Player1 %s, points: %d \nPlayer2 %s, points: %d \nThe winner is %s.", player1.name, player1.points, player2.name, player2.points, player1.name);
     }
      else if(player2.points>player1.points)
     {
         printf("\nThe winner is %s", player2.name);
+        ScoreSheet = fopen("./Score.txt","w+");
+        fprintf(ScoreSheet, "Player1 %s, points: %d \nPlayer2 %s, points: %d \nThe winner is %s.", player1.name, player1.points, player2.name, player2.points, player2.name);
     }
      else
     {
-        printf("\nAre ties possible? If so, this is one.");
+        printf("\nThe game resulted in a draw.");
+        ScoreSheet = fopen("./Score.txt","w+");
+        fprintf(ScoreSheet, "Player1 %s, points: %d \nPlayer2 %s, points: %d \nThe game resulted in a draw.", player1.name, player1.points, player2.name, player2.points);
     }
     puts("");
 
@@ -210,7 +218,6 @@ void playerMove(disk board[SIZE][SIZE], player currentPlayer){
 
     // Converts the letters into a number to be used in the board position array (uppercase)
     if (yAxis >= 'A' && yAxis <= 'H'){
-
         axisConvert = yAxis - 'H' + 8;
     }
 
@@ -234,8 +241,6 @@ void playerMove(disk board[SIZE][SIZE], player currentPlayer){
     hAxis->vAxis=malloc(sizeof(PMove));
     hAxis->vAxis->Axis= axisConvert-1;
     hAxis->vAxis->vAxis = NULL;
-    printf("ARRAY X Axis Selection : %d\n", hAxis->Axis);
-    printf("ARRAY Y Axis Selection : %d\n", hAxis->vAxis->Axis);
 
     // Checks if the user selected an available square and calls the function all over again if the square is invalid
 

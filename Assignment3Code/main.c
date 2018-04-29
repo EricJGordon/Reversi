@@ -9,39 +9,35 @@
 
 int main()
 {
-    FILE *ScoreSheet;
     // Variables declaration
 
     player player1= {"player1", NONE,0};
     player player2= {"player2", NONE,0};
     disk board[SIZE][SIZE];
-    bool cont = true;
+    cont = true;
     initializePlayers(&player1, &player2);
     printf("%s's disks are represented by \"B\" \n%s's disks are represented by \"W\" \nAvailable moves are represented by \"o\".\n", player1.name, player2.name); //Info for players
 
     initializeBoard(board);
-    ScoreSheet = fopen("./Assignment3/Assignment3Code/Score.txt","w+");
-    fprintf(ScoreSheet, "Player1 %s, points: %d \nPlayer2 %s, points: %d \nThe winner is ", player1.name, player1.points, player2.name, player2.points);
-    while (cont ==true){
 
-        computePositions(board, player1, &cont);
+    while (cont == true){
+
+        computePositions(board, player1);
         printBoard(board);
-        scores(board, &player1, &player2);
-
-
         if (cont == false)
             break;
+
+        scores(board, &player1, &player2);
 
         playerMove(board, player1);
         refreshBoard(board);
 
-        computePositions(board, player2, &cont);
+        computePositions(board, player2);
+
         printBoard(board);
-        scores(board, &player1, &player2);
-
-
         if (cont == false)
             break;
+        scores(board, &player1, &player2);
 
         playerMove(board, player2);
         refreshBoard(board);
