@@ -16,11 +16,11 @@ int main()
     disk board[SIZE][SIZE];
     cont = true;
     initializePlayers(&player1, &player2);
-    printf("%s's disks are represented by \"B\" \n%s's disks are represented by \"W\" \nAvailable moves are represented by \"o\".\n", player1.name, player2.name); //Info for players
+    printf("%s's disks are represented by \"B\" \n%s's disks are represented by \"W\" \nAvailable moves are represented by \"x\".\n", player1.name, player2.name); //Info for players
 
     initializeBoard(board);
 
-    while (cont == true){
+    while (cont == true){   //while there are positions available to put the next piece
 
         computePositions(board, player1);
         printBoard(board);

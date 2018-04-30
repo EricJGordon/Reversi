@@ -92,7 +92,7 @@ void printBoard(disk board[SIZE][SIZE]){
                     printf("  | ");
                     break;
                 case AVAILABLE:
-                    printf("o | ");
+                    printf("x | ");
                 default:
                     break;
             }
