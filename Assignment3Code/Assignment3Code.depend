@@ -5,15 +5,15 @@
 	<string.h>
 	"disksAndPlayers.h"
 
-1524522776 c:\users\eric\documents\softwareengineering\assignment3\assignment3code\disksandplayers.h
+1525052309 c:\users\eric\documents\softwareengineering\assignment3\assignment3code\disksandplayers.h
 
-1524522752 source:c:\users\eric\documents\softwareengineering\assignment3\assignment3code\main.c
+1525052309 source:c:\users\eric\documents\softwareengineering\assignment3\assignment3code\main.c
 	<stdio.h>
 	<stdlib.h>
 	<stdbool.h>
 	"disksAndPlayers.h"
 
-1524522815 source:c:\users\eric\documents\softwareengineering\assignment3\assignment3code\disksandplayers.c
+1525122891 source:c:\users\eric\documents\softwareengineering\assignment3\assignment3code\disksandplayers.c
 	<stdio.h>
 	<stdlib.h>
 	<string.h>

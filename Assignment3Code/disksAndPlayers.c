@@ -34,7 +34,7 @@ void initializePlayers(player *player1, player *player2){
 
 void initializeBoard(disk board [SIZE][SIZE]){
     int i, j;
-    //board initialization
+    //board initialization as provided
     for(i=0; i< SIZE; i++){
         for(j=0;j<SIZE; j++){
             if(i==3){
@@ -65,6 +65,7 @@ void initializeBoard(disk board [SIZE][SIZE]){
             board[i][j].pos.col = j;
         }
     }
+
 }
 
 
@@ -202,12 +203,22 @@ void playerMove(disk board[SIZE][SIZE], player currentPlayer){
     int xAxis, axisConvert, n, x, y, m;
 
     puts("*****************************************");
-    printf("\t%s's turn\n", currentPlayer.name);
+    printf("\t%s's turn   ", currentPlayer.name);
+
+    if(currentPlayer.type==BLACK)
+    {
+        printf("(Black)\n");
+    }
+    if(currentPlayer.type==WHITE)
+    {
+        printf("(White)\n");
+    }
+
     puts("*****************************************");
 
     // Loop that checks if the input for the X Axis is valid (both uppercase and lowercase accepted)
     do{
-        puts("Please enter the coordinates for your desired square (i.e. D3):");
+        puts("Please enter the coordinates for your desired square (e.g. \"D3\"):");
         scanf(" %c", &yAxis);
 
         if (!((yAxis >= 'a' && yAxis <= 'h') || (yAxis >= 'A' && yAxis <= 'H'))){
@@ -262,33 +273,33 @@ void playerMove(disk board[SIZE][SIZE], player currentPlayer){
                 if((board[hAxis->Axis+m][hAxis->vAxis->Axis+n].type!=currentPlayer.type)&&(board[hAxis->Axis+m][hAxis->vAxis->Axis+n].type!=NONE)&&(board[hAxis->Axis+m][hAxis->vAxis->Axis+n].type!=AVAILABLE)) //finds adjacent disks of opponent's colour
                 {
 
-                //yes in theory these should/could be combined into one if statement, but for whatevet reason this seems to work better, it was letting through all types when combined
+                //yes in theory these should/could be combined into one if statement, but for whatever reason this seems to work better, it was letting through all types when combined
 
                     if((hAxis->Axis+m)>=0 && (hAxis->Axis+m)<SIZE && (hAxis->vAxis->Axis+n)>=0 && (hAxis->vAxis->Axis+n)<SIZE);   //without considering positions off of the board
                     {
-                        for(x=1;(hAxis->Axis+(m*x))>=0 && (hAxis->Axis+(m*x))<SIZE && (hAxis->vAxis->Axis+(n*x))>=0 && (hAxis->vAxis->Axis+(n*x))<SIZE;x++)  //and keeps going in that direction until it reaches an edge
-                        {
-
+                        for(x=1;(hAxis->Axis+(m*x))>=0 && (hAxis->Axis+(m*x))<SIZE && (hAxis->vAxis->Axis+(n*x))>=0 && (hAxis->vAxis->Axis+(n*x))<SIZE && board[hAxis->Axis+(m*x)][hAxis->vAxis->Axis+(n*x)].type!=NONE && board[hAxis->Axis+(m*x)][hAxis->vAxis->Axis+(n*x)].type!=AVAILABLE;x++)           {
+                        //and keeps going in that direction until it reaches an edge, or an empty space
 
                             if(board[hAxis->Axis+(m*x)][hAxis->vAxis->Axis+(n*x)].type==currentPlayer.type)    //if any of those pieces we just considered are the same colour as the newly placed disk
                             {
-                                for(y=x-1;y>0;y--)          //then change the colour of every disk inbetween the newly placed disk and the other same-coloured disk just found to currentplayer's colour
+                                for(y=x-1;y>0;y--)          //then change the colour of every disk inbetween the newly placed disk and the other same-coloured disk just found, to currentplayer's colour
                                 {
                                     board[hAxis->Axis+(m*y)][hAxis->vAxis->Axis+(n*y)].type=currentPlayer.type;
-                                    //implement score updates here
                                 }
+
+                                break;      //once it finds another piece of currentplayers type, and flips all pieces inbetween, it should not keep going in that direction looking for more pieces
                             }
                         }
                     }
                 }
             }
-        }// Needs an algorithm here to convert the opponent's disks into the current player's colour
+        }
     }
 
 }
 
 
-void scores(disk board[SIZE][SIZE], player *player1, player *player2)
+void scores(disk board[SIZE][SIZE], player *player1, player *player2)   //manually counts number of disks of both colours every time
 {
     int i, j;
 
